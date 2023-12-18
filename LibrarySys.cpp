@@ -18,9 +18,8 @@ int Library::getTotalBook(){
     return totalBook;
 }
 
-void Library::addBook(const int& ID, const string& title,
-                      const string& author, const string& genre,
-                      const int& year, const long long int& ISBN,
+void Library::addBook(const int& ID, const string& title, const string& author,
+                      const string& genre, const int& year, const long long int& ISBN,
                       const string& publisher)
 {
     Book *newBook = new Book;
@@ -51,17 +50,28 @@ void Library::editBook(const int& ID, const string& title,
                       const string& author, const string& genre,
                       const int& year, const long long int& ISBN,
                       const string& publisher)
+{                          
+    int first = 1001;
+    int last = 1000 + getTotalBook[];
+    int ID = int value
+    
+    int binarySearch (int anArray[], int first, int last , int value)
 {
-    Book* current = head;
-    while(current != NULL){
-        if (current->ID == ID){
-            editBook(current);
-            displayBook(current);
-            break;
-        }
-        current = current->next;
+    int index;
+    if (first > last) index = -1;
+    //There is no number in the array
+    else{
+        int mid = (first+last) /2;
+    //find mid point
+        if(value == anArray[mid] )
+            index = mid;
+        else if(value < anArray[mid])
+            index = binarySearch(anArray, first, mid-1, value);
+        else
+            index = binarySearch(anArray, mid+1, last, value);
     }
-    return false;
+    return index;
+}
 }
 
 void Library::searchBook(const int& ID){
