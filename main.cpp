@@ -52,8 +52,31 @@ int main(){
 
                 library.addBook(id, title, author, genre, year, ISBN, publisher);
                 break;
+            
             case 2:
-                //edit
+                void displayBook(ID);
+                //display semua buku
+                cout << "\nEnter Book ID: ";
+                cin >> ID;
+                //search for the books
+                cout<<"\nEditing book with ID "<< current->ID << endl;
+                //found the book
+                cout << "\nTitle : ";
+                getline(cin, title);
+                cout << "\nAuthor: ";
+                getline(cin, author);
+                cout << "\nGenre : ";
+                getline(cin, genre);
+                cout << "\nYear  : ";
+                cin >> year;
+                cout << "\nISBN  : ";
+                cin >> ISBN;
+                cin.ignore();
+                cout << "\nPublisher  : ";
+                getline(cin, publisher);
+                // get the new input for the book from the user
+                id = 1000 + library.getTotalBook();
+                library.editBook(id, title, author, genre, year, ISBN, publisher);
                 break;
             case 3:
                 //search

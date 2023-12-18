@@ -47,8 +47,21 @@ void Library::addBook(const int& ID, const string& title,
     totalBook++;
 }
 
-void Library::editBook(const int& ID){
-
+void Library::editBook(const int& ID, const string& title,
+                      const string& author, const string& genre,
+                      const int& year, const long long int& ISBN,
+                      const string& publisher)
+{
+    Book* current = head;
+    while(current != NULL){
+        if (current->ID == ID){
+            editBook(current);
+            displayBook(current);
+            break;
+        }
+        current = current->next;
+    }
+    return false;
 }
 
 void Library::searchBook(const int& ID){
