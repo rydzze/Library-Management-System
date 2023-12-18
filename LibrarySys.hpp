@@ -32,8 +32,10 @@ class Library{
         void addBook(const int& ID, const string& title, const string& author,
                      const string& genre, const int& year, const long long int& ISBN,
                      const string& publisher);
-        void editBook(const int& ID);
-        void searchBook(const int& ID);
+        void editBook(const int& ID, const string& title, const string& author,
+                      const string& genre, const int& year, const long long int& ISBN,
+                      const string& publisher);
+        void searchBookInfo(const int& ID);
         void displayAllBook();
         void deleteBook(const int& ID);
 };

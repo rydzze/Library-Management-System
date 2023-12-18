@@ -20,11 +20,11 @@ int main(){
         system("cls");
         //change menu interface
         cout << "\nLibrary Management System\n";
-        cout << "\n1. Add book";
-        cout << "\n2. Edit book";
-        cout << "\n3. Search book";
-        cout << "\n4. Display book";
-        cout << "\n5. Delete book";
+        cout << "\n1. Add new book";
+        cout << "\n2. Edit book details";
+        cout << "\n3. Search book info";
+        cout << "\n4. Display all book";
+        cout << "\n5. Delete existing book";
         
         cout << "\n\n0. Exit System";
 
@@ -48,19 +48,18 @@ int main(){
                 cin.ignore();
                 cout << "\nPublisher  : ";
                 getline(cin, publisher);
-                id = 1000 + library.getTotalBook();
+                id = 1001 + library.getTotalBook();
 
                 library.addBook(id, title, author, genre, year, ISBN, publisher);
                 break;
             
             case 2:
-                void displayBook(ID);
-                //display semua buku
+                library.displayAllBook();
                 cout << "\nEnter Book ID: ";
-                cin >> ID;
-                //search for the books
-                cout<<"\nEditing book with ID "<< current->ID << endl;
-                //found the book
+                cin >> id;
+                cin.ignore();
+
+                cout<<"\nEditing book with ID "<< id << endl;
                 cout << "\nTitle : ";
                 getline(cin, title);
                 cout << "\nAuthor: ";
@@ -74,18 +73,22 @@ int main(){
                 cin.ignore();
                 cout << "\nPublisher  : ";
                 getline(cin, publisher);
-                // get the new input for the book from the user
-                id = 1000 + library.getTotalBook();
+                
                 library.editBook(id, title, author, genre, year, ISBN, publisher);
                 break;
             case 3:
-                //search
+                cout << "\nEnter Book ID: ";
+                cin >> id;
+                library.searchBookInfo(id);
                 break;
             case 4:
-                //display
+                library.displayAllBook();
                 break;
             case 5:
-                //delete
+                library.displayAllBook();
+                cout << "\nEnter Book ID: ";
+                cin >> id;
+                library.deleteBook(id);
                 break;
             case 0:
                 cout << "\nExit ...\n";
@@ -93,10 +96,10 @@ int main(){
             default:
                 break;
         }
-
+        system("pause");
+        
     }while(choice != 0);
 
-    system("pause");
     return 0;
 }
 
