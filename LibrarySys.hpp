@@ -13,12 +13,13 @@ class Library{
             string author;
             string genre;
             int year;
-            int ISBN;
+            long long int ISBN;
             string publisher;
             Book* next;
         };
 
-        Book *front;
+        int totalBook;
+        Book* head;
         
     public:
 
@@ -28,7 +29,9 @@ class Library{
         bool isEmpty();
         int getTotalBook();
 
-        void addBook(const Book& book);
+        void addBook(const int& ID, const string& title, const string& author,
+                     const string& genre, const int& year, const long long int& ISBN,
+                     const string& publisher);
         void editBook(const int& ID);
         void searchBook(const int& ID);
         void displayAllBook();
