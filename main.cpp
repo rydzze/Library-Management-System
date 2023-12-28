@@ -19,7 +19,10 @@ int main(){
     do{
         system("cls");
         //change menu interface
-        cout << "\nLibrary Management System\n";
+        cout << "\n**************************************************************************\n";
+	cout << "                     WELCOME TO LIBRARY MANAGEMENT SYSTEM                   \n";
+	cout << "                                  MAIN MENU                                 \n";
+	cout << "\n**************************************************************************\n\n";
         cout << "\n1. Add new book";
         cout << "\n2. Edit book details";
         cout << "\n3. Search book info";
