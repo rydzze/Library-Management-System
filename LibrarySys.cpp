@@ -1,6 +1,9 @@
 #include <iostream>
 #include <cstdlib>
 #include <iomanip>
+#include <fstream>
+#include <sstream>
+#include <queue>
 #include "LibrarySys.hpp"
 using namespace std;
 using namespace System;
@@ -142,4 +145,84 @@ void Library::deleteBook(const int& ID){
     delete curr;
     cout << "\nBook with ID " << ID << " removed successfully ...\n";
     totalBook--;
+}
+
+void Library::deleteAllBook(){
+    if(isEmpty()){
+        return;
+    }
+
+    Book* current = head;
+    Book* nextBook;
+    while(current != NULL){
+        nextBook = current -> next;
+        delete current;
+        current = nextBook;
+    }
+    head = NULL;
+    totalBook = 0;
+}
+
+void Library::loadFile(){
+    ifstream readFile("data.txt");
+    if(!readFile.is_open()){
+        cout << "\nError: Unable to open file for reading." << endl;
+        return;
+    }
+
+    queue<Book> Queue;
+    string line;
+    while(getline(readFile, line)){
+        stringstream ss(line);
+        string token;
+
+        int ID;
+        string title, author, genre, publisher;
+        int year;
+        long long int ISBN;
+
+        getline(ss, token, '~');
+        ID = stoi(token);
+        getline(ss, title, '~');
+        getline(ss, author, '~');
+        getline(ss, genre, '~');
+        getline(ss, token, '~');
+        year = stoi(token);
+        getline(ss, token, '~');
+        ISBN = stoll(token);
+        getline(ss, publisher, '~');
+
+        Book tempBook{ID, title, author, genre, year, ISBN, publisher, nullptr};
+        Queue.push(tempBook);
+    }
+
+    while (!Queue.empty()) {
+        Book current = Queue.front();
+        Queue.pop();
+
+        addBook(current.ID, current.title, current.author,
+                current.genre, current.year, current.ISBN,
+                current.publisher);
+    }
+    cout << "\n File laoded successfully" << endl;
+    readFile.close();
+}
+
+void Library::saveFile(){
+    ofstream writeFile("data.txt");
+    if(!writeFile.is_open()){
+        cout << "\nError: Unable to open file for writing." << endl;
+        return;
+    }
+    
+    Book* current = head;
+    while(current != NULL){
+        writeFile << current -> ID << '~' << current -> title << '~'
+                  << current -> author << '~' << current -> genre << '~'
+                  << current -> year << '~' << current -> ISBN << '~'
+                  << current -> publisher << '~' << endl;
+        current = current -> next;
+    }
+    cout << "\n File saved successfully" << endl;
+    writeFile.close();
 }

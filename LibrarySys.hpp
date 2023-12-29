@@ -38,6 +38,10 @@ class Library{
         void searchBookInfo(const int& ID);
         void displayAllBook();
         void deleteBook(const int& ID);
+        void deleteAllBook();
+
+        void loadFile();
+        void saveFile();
 };
 
 };

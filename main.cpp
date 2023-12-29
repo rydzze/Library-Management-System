@@ -20,14 +20,16 @@ int main(){
         system("cls");
         //change menu interface
         cout << "\n**************************************************************************\n";
-	cout << "                     WELCOME TO LIBRARY MANAGEMENT SYSTEM                   \n";
-	cout << "                                  MAIN MENU                                 \n";
-	cout << "\n**************************************************************************\n\n";
+        cout << "                     WELCOME TO LIBRARY MANAGEMENT SYSTEM                   \n";
+        cout << "                                  MAIN MENU                                 \n";
+        cout << "\n**************************************************************************\n\n";
         cout << "\n1. Add new book";
         cout << "\n2. Edit book details";
         cout << "\n3. Search book info";
         cout << "\n4. Display all book";
         cout << "\n5. Delete existing book";
+        cout << "\n6. Load data from file";
+        cout << "\n7. Save data into file";
         
         cout << "\n\n0. Exit System";
 
@@ -92,6 +94,13 @@ int main(){
                 cout << "\nEnter Book ID: ";
                 cin >> id;
                 library.deleteBook(id);
+                break;
+            case 6:
+                library.deleteAllBook();
+                library.loadFile();
+                break;
+            case 7:
+                library.saveFile();
                 break;
             case 0:
                 cout << "\nExit ...\n";
