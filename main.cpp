@@ -11,8 +11,8 @@ int main(){
     Library library;
     init(library);
     
-    string title, author, genre, publisher;
-    int id, year;
+    string id, title, author, genre, publisher;
+    int year;
     long long int ISBN;
     
     int choice = 0;
@@ -55,7 +55,7 @@ int main(){
                 getline(cin, publisher);
                 id = 1001 + library.getTotalBook();
 
-                library.addBook(id, title, author, genre, year, ISBN, publisher);
+                // library.addBook(id, title, author, genre, year, ISBN, publisher);
                 break;
             
             case 2:
@@ -87,6 +87,7 @@ int main(){
                 library.searchBookInfo(id);
                 break;
             case 4:
+                library.MergeSort();
                 library.displayAllBook();
                 break;
             case 5:
@@ -116,9 +117,5 @@ int main(){
 }
 
 void init(Library& library){
-    library.addBook(1001, "The Great Gatsby", "F. Scott Fitzgerald", "Fiction", 1925, 9781234567890, "Scribner");
-    library.addBook(1002, "To Kill a Mockingbird", "Harper Lee", "Fiction", 1960, 9780061120084, "J.B. Lippincott");
-    library.addBook(1003, "1984", "George Orwell", "Dystopian", 1949, 9780451524935, "Secker & Warburg");
-    library.addBook(1004, "Harry Potter and the Sorcerer's Stone", "J.K. Rowling", "Fantasy", 1997, 9780590353427, "Scholastic");
-    library.addBook(1005, "The Catcher in the Rye", "J.D. Salinger", "Fiction", 1951, 9780241950432, "Little, Brown and Company");
+    library.loadFile();
 }

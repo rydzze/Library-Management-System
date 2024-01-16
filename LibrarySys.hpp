@@ -8,7 +8,7 @@ namespace System{
 class Library{
     private:
         struct Book{
-            int ID;
+            string ID;
             string title;
             string author;
             string genre;
@@ -29,19 +29,25 @@ class Library{
         bool isEmpty();
         int getTotalBook();
 
-        void addBook(const int& ID, const string& title, const string& author,
+        void addBook(const string& ID, const string& title, const string& author,
                      const string& genre, const int& year, const long long int& ISBN,
                      const string& publisher);
-        void editBook(const int& ID, const string& title, const string& author,
+        void editBook(const string& ID, const string& title, const string& author,
                       const string& genre, const int& year, const long long int& ISBN,
                       const string& publisher);
-        void searchBookInfo(const int& ID);
+        void searchBookInfo(const string& ID);
         void displayAllBook();
-        void deleteBook(const int& ID);
+        void deleteBook(const string& ID);
         void deleteAllBook();
 
         void loadFile();
         void saveFile();
+
+        int compareBookID(const string& id1, const string& id2);
+        void MergeSort();
+        void MergeSort(Book** headRef);
+        Book* SortedMerge(Book* a, Book* b);
+        void FrontBackSplit(Book* source, Book** frontRef, Book** backRef);
 };
 
 };

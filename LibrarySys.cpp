@@ -22,7 +22,7 @@ int Library::getTotalBook(){
     return totalBook;
 }
 //create new var for ID creation
-void Library::addBook(const int& ID, const string& title, const string& author,
+void Library::addBook(const string& ID, const string& title, const string& author,
                       const string& genre, const int& year, const long long int& ISBN,
                       const string& publisher)
 {
@@ -51,7 +51,7 @@ void Library::addBook(const int& ID, const string& title, const string& author,
 }
 
 //if not exist, no need to prompt
-void Library::editBook(const int& ID, const string& title, const string& author,
+void Library::editBook(const string& ID, const string& title, const string& author,
                        const string& genre, const int& year, const long long int& ISBN,
                        const string& publisher)
 {                    
@@ -75,7 +75,7 @@ void Library::editBook(const int& ID, const string& title, const string& author,
     }
 }  
 
-void Library::searchBookInfo(const int& ID){
+void Library::searchBookInfo(const string& ID){
     Book* curr = head;
     while(curr != NULL)
     {
@@ -95,7 +95,6 @@ void Library::searchBookInfo(const int& ID){
     }
 }
 
-//implement queue to seperate later, maybe ...
 void Library::displayAllBook(){
     if(isEmpty()){
         cout << "\nEmpty library ...\n";
@@ -117,7 +116,7 @@ void Library::displayAllBook(){
 }
 
 //if not exist, no need to prompt
-void Library::deleteBook(const int& ID){
+void Library::deleteBook(const string& ID){
     if(isEmpty()){
         return;
     }
@@ -176,13 +175,11 @@ void Library::loadFile(){
         stringstream ss(line);
         string token;
 
-        int ID;
-        string title, author, genre, publisher;
+        string ID, title, author, genre, publisher;
         int year;
         long long int ISBN;
 
-        getline(ss, token, '~');
-        ID = stoi(token);
+        getline(ss, ID, '~');
         getline(ss, title, '~');
         getline(ss, author, '~');
         getline(ss, genre, '~');
@@ -204,7 +201,7 @@ void Library::loadFile(){
                 current.genre, current.year, current.ISBN,
                 current.publisher);
     }
-    cout << "\n File laoded successfully" << endl;
+    cout << "\n File loaded successfully" << endl;
     readFile.close();
 }
 
@@ -225,4 +222,81 @@ void Library::saveFile(){
     }
     cout << "\n File saved successfully" << endl;
     writeFile.close();
+}
+
+
+
+//SIMPLIFY THE CODE BELOW !!!
+
+int Library::compareBookID(const string& id1, const string& id2) {
+    char letter1 = id1[0];
+    char letter2 = id2[0];
+
+    if (letter1 != letter2) {
+        return letter1 - letter2;
+    }
+
+    // If the first characters are the same, compare the numeric parts
+    int num1 = stoi(id1.substr(1));
+    int num2 = stoi(id2.substr(1));
+
+    return num1 - num2;
+}
+
+void Library::MergeSort() {
+    MergeSort(&head);
+}
+
+void Library::MergeSort(Book** headRef) {
+    Book* head = *headRef;
+    Book* a;
+    Book* b;
+
+    if (head == NULL || head -> next == NULL) {
+        return;
+    }
+
+    FrontBackSplit(head, &a, &b);
+
+    MergeSort(&a);
+    MergeSort(&b);
+
+    *headRef = SortedMerge(a, b);
+}
+
+Library::Book* Library::SortedMerge(Book* a, Book* b) {
+    Book* result = NULL;
+
+    if (a == NULL)
+        return b;
+    else if (b == NULL)
+        return a;
+
+    if (compareBookID(a->ID, b->ID) <= 0) {
+        result = a;
+        result -> next = SortedMerge(a -> next, b);
+    } else {
+        result = b;
+        result -> next = SortedMerge(a, b -> next);
+    }
+    return result;
+}
+
+void Library::FrontBackSplit(Book* source, Book** frontRef, Book** backRef) {
+    Book* fast;
+    Book* slow;
+    slow = source;
+    fast = source -> next;
+
+    while (fast != NULL) {
+        fast = fast -> next;
+        if (fast != NULL) {
+            slow = slow -> next;
+            fast = fast -> next;
+        }
+    }
+
+    *frontRef = source;
+    *backRef = slow -> next;
+    slow -> next = NULL;
 }

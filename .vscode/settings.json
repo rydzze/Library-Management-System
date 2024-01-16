@@ -60,6 +60,12 @@
     "iostream": "cpp",
     "iomanip": "cpp",
     "cstdlib": "cpp",
-    "iosfwd": "cpp"
+    "iosfwd": "cpp",
+    "list": "cpp",
+    "array": "cpp",
+    "deque": "cpp",
+    "vector": "cpp",
+    "string_view": "cpp",
+    "ranges": "cpp"
   }
 }

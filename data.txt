@@ -1,0 +1,9 @@
+A004~Harry Potter and the Sorcerer's Stone~J.K. Rowling~Fantasy~1997~9780590353427~Scholastic~
+B002~To Kill a Mockingbird~Harper Lee~Fiction~1960~9780061120084~J.B. Lippincott~
+D003~1984~George Orwell~Dystopian~1949~9780451524935~Secker & Warburg~
+F005~The Catcher in the Rye~J.D. Salinger~Fiction~1951~9780241950432~Little, Brown and Company~
+F101~The Great Gatsby~F. Scott Fitzgerald~Fiction~1925~9781234567890~Scribner~
+M006~The Lord of the Rings~J.R.R. Tolkien~Fantasy~1954~9780618640157~Houghton Mifflin~
+P007~Pride and Prejudice~Jane Austen~Classic~1813~9780141439518~Penguin Classics~
+S008~The Hobbit~J.R.R. Tolkien~Fantasy~1937~9780547928227~Houghton Mifflin~
+W009~The Chronicles of Narnia~C.S. Lewis~Fantasy~1950~9780066238500~HarperCollins~
