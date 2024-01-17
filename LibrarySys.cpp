@@ -11,7 +11,7 @@ using namespace System;
 Library::Library() : head(NULL), totalBook(0) {} 
 
 Library::~Library(){
-    //delete all
+    Library::deleteAllBook();
 }
 
 bool Library::isEmpty(){
@@ -21,7 +21,65 @@ bool Library::isEmpty(){
 int Library::getTotalBook(){
     return totalBook;
 }
-//create new var for ID creation
+
+int Library::getBookIDCounter(){
+    return bookIDCounter;
+}
+
+string Library::generateBookID(const string& genre, int n){
+    char headerID = genre[0];
+    
+    if(genre != "Science" && genre != "History" && genre != "Fantasy" && genre != "Comic" && genre != "Philosophy"){
+        headerID = 'Z';
+    }
+
+    ostringstream id;
+    id << headerID << setw(3) << setfill('0') << n + 1;
+    return id.str();
+}
+
+void Library::addBook()
+{
+    string userInput;
+
+    Book *newBook = new Book;
+    cout << "\nTitle : ";
+    getline(cin, userInput);
+    newBook -> title = userInput;
+    cout << "\nAuthor: ";
+    getline(cin, userInput);
+    newBook -> author = userInput;
+    cout << "\nGenre : ";
+    getline(cin, userInput);
+    newBook -> genre = userInput;        
+    newBook -> ID = generateBookID(userInput, getBookIDCounter());
+    cout << "\nYear  : ";
+    getline(cin, userInput);
+    newBook -> year = stoi(userInput);
+    cout << "\nISBN  : ";
+    getline(cin, userInput);
+    newBook -> ISBN = stoll(userInput);
+    cout << "\nPublisher  : ";
+    getline(cin, userInput);
+    newBook -> publisher = userInput;
+
+    newBook -> next = NULL;
+
+    if(isEmpty()){
+        head = newBook;
+    }
+    else{
+        Book* curr = head;
+        while(curr -> next != NULL){
+            curr = curr -> next;
+        }
+        curr -> next = newBook;
+    }
+
+    bookIDCounter++;
+    totalBook++;
+}
+
 void Library::addBook(const string& ID, const string& title, const string& author,
                       const string& genre, const int& year, const long long int& ISBN,
                       const string& publisher)
@@ -47,32 +105,50 @@ void Library::addBook(const string& ID, const string& title, const string& autho
         curr -> next = newBook;
     }
 
+    bookIDCounter++;
     totalBook++;
 }
 
-//if not exist, no need to prompt
-void Library::editBook(const string& ID, const string& title, const string& author,
-                       const string& genre, const int& year, const long long int& ISBN,
-                       const string& publisher)
-{                    
+void Library::editBook()
+{
+    string userInput;
+
+    cout << "\nEnter Book ID: ";
+    cin >> userInput;
+
     Book* curr = head;
-    while(curr != NULL)
-    {
-        if(curr -> ID == ID){
-           curr -> title = title;
-           curr -> author = author;
-           curr -> genre = genre;
-           curr -> year = year;
-           curr -> ISBN = ISBN;
-           curr -> publisher = publisher;
-           cout << "\nBook with ID " << ID << " edited successfully ...\n";
-           return;
+    while(curr != NULL){
+        if(curr -> ID == userInput){
+            cout<<"\nEditing book with ID "<< curr -> ID << endl;
+
+            cout << "\nTitle : ";
+            getline(cin, userInput);
+            curr -> title = userInput;
+            cout << "\nAuthor: ";
+            getline(cin, userInput);
+            curr -> author = userInput;
+            cout << "\nGenre : ";
+            getline(cin, userInput);
+            curr -> genre = userInput;        
+            curr -> ID = generateBookID(userInput, getBookIDCounter());
+            cout << "\nYear  : ";
+            getline(cin, userInput);
+            curr -> year = stoi(userInput);
+            cout << "\nISBN  : ";
+            getline(cin, userInput);
+            curr -> ISBN = stoll(userInput);
+            cout << "\nPublisher  : ";
+            getline(cin, userInput);
+            curr -> publisher = userInput;
+
+            cout << "\nBook with ID " << curr -> ID << " edited successfully ...\n";
+            return;
         }
         curr = curr -> next;
     }
-    if(curr == NULL){
-        cout << "\nBook didn't exist in system ...\n";
-    }
+    
+    cout << "\nBook didn't exist in system ...\n";
+    return;
 }  
 
 void Library::searchBookInfo(const string& ID){
@@ -115,22 +191,28 @@ void Library::displayAllBook(){
     cout << "+" << setfill('-') << setw(7) << right << "+" << setw(45) << "+" << setw(21) << "+" << setw(13) << "+" << endl;
 }
 
-//if not exist, no need to prompt
-void Library::deleteBook(const string& ID){
+//do some fixing here, kinda redundant ...
+void Library::deleteBook(){
     if(isEmpty()){
+        cout << "\nEmpty library ...\n";
         return;
     }
+
+    string userInput;
+    cout << "\nEnter Book ID: ";
+    cin >> userInput;
     
     Book* curr = head;
     Book* prev = NULL;
-    if(curr != NULL && curr -> ID == ID){
+
+    if(curr != NULL && curr -> ID == userInput){
         head = curr -> next;
         delete curr;
         totalBook--;
-        cout << "\nBook with ID " << ID << " removed successfully ...\n";
+        cout << "\nBook with ID " << userInput << " removed successfully ...\n";
         return; 
     }
-    while(curr != NULL && curr -> ID != ID){// 
+    while(curr != NULL && curr -> ID != userInput){
         prev = curr;
         curr = curr -> next;
     }
@@ -142,7 +224,7 @@ void Library::deleteBook(const string& ID){
     prev -> next = curr -> next;
     curr -> next = NULL;
     delete curr;
-    cout << "\nBook with ID " << ID << " removed successfully ...\n";
+    cout << "\nBook with ID " << userInput << " removed successfully ...\n";
     totalBook--;
 }
 
@@ -189,7 +271,7 @@ void Library::loadFile(){
         ISBN = stoll(token);
         getline(ss, publisher, '~');
 
-        Book tempBook{ID, title, author, genre, year, ISBN, publisher, nullptr};
+        Book tempBook{ID, title, author, genre, publisher, year, ISBN, NULL};
         Queue.push(tempBook);
     }
 

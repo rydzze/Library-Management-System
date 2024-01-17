@@ -66,6 +66,8 @@
     "deque": "cpp",
     "vector": "cpp",
     "string_view": "cpp",
-    "ranges": "cpp"
+    "ranges": "cpp",
+    "*.tcc": "cpp",
+    "thread": "cpp"
   }
 }
