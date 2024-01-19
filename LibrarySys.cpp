@@ -38,6 +38,7 @@ string Library::generateBookID(const string& genre, int n){
     return id.str();
 }
 
+//for Sarvien - add some interfaces here for attractive looking lol
 void Library::addBook()
 {
     string userInput;
@@ -109,6 +110,7 @@ void Library::addBook(const string& ID, const string& title, const string& autho
     totalBook++;
 }
 
+//for Sarvien - add some interfaces here for attractive looking lol
 void Library::editBook()
 {
     string userInput;
@@ -151,6 +153,7 @@ void Library::editBook()
     return;
 }  
 
+//Ariff will do this one (add some interfaces here for attractive looking lol)
 void Library::searchBookInfo(const string& ID){
     Book* curr = head;
     while(curr != NULL)
@@ -191,7 +194,7 @@ void Library::displayAllBook(){
     cout << "+" << setfill('-') << setw(7) << right << "+" << setw(45) << "+" << setw(21) << "+" << setw(13) << "+" << endl;
 }
 
-//do some fixing here, kinda redundant ...
+//for Nawfal - do some fixing here, kinda redundant ...
 void Library::deleteBook(){
     if(isEmpty()){
         cout << "\nEmpty library ...\n";
@@ -308,7 +311,7 @@ void Library::saveFile(){
 
 
 
-//SIMPLIFY THE CODE BELOW !!!
+//for Ariff - SIMPLIFY THE CODE BELOW !!!
 
 int Library::compareBookID(const string& id1, const string& id2) {
     char letter1 = id1[0];
