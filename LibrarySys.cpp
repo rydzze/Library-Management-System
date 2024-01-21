@@ -153,19 +153,24 @@ void Library::editBook()
     return;
 }  
 
-//Ariff will do this one (add some interfaces here for attractive looking lol)
-void Library::searchBookInfo(const string& ID){
+void Library::viewBookInfo(){
+    string userInput;
+    cout << "\nEnter Book ID: ";
+    cin >> userInput; 
+
     Book* curr = head;
     while(curr != NULL)
     {
-        if(curr -> ID == ID){
-           cout << "\nTitle :" << curr -> title;
-           cout << "\nAuthor:" << curr -> author;
-           cout << "\nGenre :" << curr -> genre;
-           cout << "\nYear  :" << curr -> year;
-           cout << "\nISBN  :" << curr -> ISBN;
-           cout << "\nPublisher:" << curr -> publisher;
-           return;
+        if(curr -> ID == userInput){
+            cout << "+" << setfill('-') << setw(13) << "+" << setfill('-') << setw(47) << "+" << endl;
+            cout << "|" << setfill(' ') << left << setw(12) << " Title" << "| " << setw(45) << curr->title << "|" << endl;
+            cout << "|" << setfill(' ') << left << setw(12) << " Author" << "| " << setw(45) << curr->author << "|" << endl;
+            cout << "|" << setfill(' ') << left << setw(12) << " Genre" << "| " << setw(45) << curr->genre << "|" << endl;
+            cout << "|" << setfill(' ') << left << setw(12) << " Year" << "| " << setw(45) << curr->year << "|" << endl;
+            cout << "|" << setfill(' ') << left << setw(12) << " ISBN" << "| " << setw(45) << curr->ISBN << "|" << endl;
+            cout << "|" << setfill(' ') << left << setw(12) << " Publisher" << "| " << setw(45) << curr->publisher << "|" << endl;
+            cout << "+" << setfill('-') << setw(13) << right << "+" << setfill('-') << setw(47) << "+" << endl;
+            return;
         }
         curr = curr -> next;
     }
@@ -188,7 +193,7 @@ void Library::displayAllBook(){
                 << setw(20) << left << "Author" << "|" << setw(12) << left << "Genre" << "|" << endl;
 
     while (current != NULL) {
-        cout << "|" << setfill('-') << setw(7) << right << "+" << setw(45) << "+" << setw(21) << "+" << setw(13) << "|" << endl;
+        cout << "|" << setfill('-') << setw(7) << right << "|" << setw(45) << "|" << setw(21) << "|" << setw(13) << "|" << endl;
         cout << "|" << setfill(' ') << setw(6) << left << current->ID << "|" << setw(44) << left << current->title << "|"
                     << setw(20) << left << current->author << "|" << setw(12) << left << current->genre << "|" << endl;
         current = current -> next;

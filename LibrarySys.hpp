@@ -32,7 +32,7 @@ class Library{
                      const string& genre, const int& year, const long long int& ISBN,
                      const string& publisher);
         void editBook();
-        void searchBookInfo(const string& ID);
+        void viewBookInfo();
         void displayAllBook();
         void deleteBook();
         void deleteAllBook();

@@ -11,11 +11,8 @@ int main(){
     Library library;
     init(library);
     
-    string id, title, author, genre, publisher;
-    int year;
-    long long int ISBN;
-    
     int choice = 0;
+
     do{
         system("cls");
         cout << "\n **************************************************************************\n\n";
@@ -24,7 +21,7 @@ int main(){
         cout << "\n **************************************************************************\n\n";
         cout << "\n\t1. Add new book";
         cout << "\n\t2. Edit book details";
-        cout << "\n\t3. Search book info";
+        cout << "\n\t3. View book info";
         cout << "\n\t4. Display all book";
         cout << "\n\t5. Delete existing book";
         cout << "\n\t6. Load data from file";
@@ -41,16 +38,12 @@ int main(){
             case 1:
                 library.addBook();
                 break;
-            
             case 2:
                 library.displayAllBook();
-                
                 library.editBook();
                 break;
             case 3:
-                cout << "\nEnter Book ID: ";
-                cin >> id;
-                library.searchBookInfo(id);
+                library.viewBookInfo();
                 break;
             case 4:
                 library.displayAllBook();
