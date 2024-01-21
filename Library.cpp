@@ -4,11 +4,11 @@
 #include <fstream>
 #include <sstream>
 #include <queue>
-#include "LibrarySys.hpp"
+#include "Library.hpp"
 using namespace std;
-using namespace System;
+using namespace LibSys;
 
-Library::Library() : head(NULL), totalBook(0) {} 
+Library::Library() : head(NULL), totalBook(0){} 
 
 Library::~Library(){
     Library::deleteAllBook();
@@ -26,7 +26,7 @@ int Library::getBookIDCounter(){
     return bookIDCounter;
 }
 
-string Library::generateBookID(const string& genre, int n){
+string Library::generateBookID(const string& genre){
     char headerID = genre[0];
     
     if(genre != "Science" && genre != "History" && genre != "Fantasy" && genre != "Comic" && genre != "Philosophy"){
@@ -34,13 +34,12 @@ string Library::generateBookID(const string& genre, int n){
     }
 
     ostringstream id;
-    id << headerID << setw(3) << setfill('0') << n + 1;
+    id << headerID << setw(3) << setfill('0') << getBookIDCounter() + 1;
     return id.str();
 }
 
 //for Sarvien - add some interfaces here for attractive looking lol
-void Library::addBook()
-{
+void Library::addBook(){
     string userInput;
 
     Book *newBook = new Book;
@@ -53,7 +52,7 @@ void Library::addBook()
     cout << "\nGenre : ";
     getline(cin, userInput);
     newBook -> genre = userInput;        
-    newBook -> ID = generateBookID(userInput, getBookIDCounter());
+    newBook -> ID = generateBookID(userInput);
     cout << "\nYear  : ";
     getline(cin, userInput);
     newBook -> year = stoi(userInput);
@@ -110,52 +109,35 @@ void Library::addBook(const string& ID, const string& title, const string& autho
     totalBook++;
 }
 
-//for Sarvien - add some interfaces here for attractive looking lol
-void Library::editBook()
-{
-    string userInput;
-
-    cout << "\nEnter Book ID: ";
-    cin >> userInput;
-
-    Book* curr = head;
-    while(curr != NULL){
-        if(curr -> ID == userInput){
-            cout<<"\nEditing book with ID "<< curr -> ID << endl;
-
-            cout << "\nTitle : ";
-            getline(cin, userInput);
-            curr -> title = userInput;
-            cout << "\nAuthor: ";
-            getline(cin, userInput);
-            curr -> author = userInput;
-            cout << "\nGenre : ";
-            getline(cin, userInput);
-            curr -> genre = userInput;        
-            curr -> ID = generateBookID(userInput, getBookIDCounter());
-            cout << "\nYear  : ";
-            getline(cin, userInput);
-            curr -> year = stoi(userInput);
-            cout << "\nISBN  : ";
-            getline(cin, userInput);
-            curr -> ISBN = stoll(userInput);
-            cout << "\nPublisher  : ";
-            getline(cin, userInput);
-            curr -> publisher = userInput;
-
-            cout << "\nBook with ID " << curr -> ID << " edited successfully ...\n";
-            return;
-        }
-        curr = curr -> next;
+void Library::displayAllBook(){
+    if(isEmpty()){
+        cout << "\nEmpty library ...\n";
+        return;
     }
     
-    cout << "\nBook didn't exist in system ...\n";
-    return;
-}  
+    MergeSort(&head);
+
+    Book* curr = head;
+    cout << "+" << setfill('-') << setw(7) << "+" << setw(45) << "+" << setw(21) << "+" << setw(13) << "+" << endl;
+    cout << "|" << setfill(' ') << setw(6) << left << "ID" << "|" << setw(44) << left << "Title" << "|"
+                << setw(20) << left << "Author" << "|" << setw(12) << left << "Genre" << "|" << endl;
+
+    while (curr != NULL) {
+        cout << "|" << setfill('-') << setw(7) << right << "|" << setw(45) << "|" << setw(21) << "|" << setw(13) << "|" << endl;
+        cout << "|" << setfill(' ') << setw(6) << left << curr -> ID << "|" << setw(44) << left << curr -> title << "|"
+                    << setw(20) << left << curr -> author << "|" << setw(12) << left << curr -> genre << "|" << endl;
+        curr = curr -> next;
+    } 
+    cout << "+" << setfill('-') << setw(7) << right << "+" << setw(45) << "+" << setw(21) << "+" << setw(13) << "+" << endl;
+}
 
 void Library::viewBookInfo(){
+    if(isEmpty()){
+        return;
+    }
+    
     string userInput;
-    cout << "\nEnter Book ID: ";
+    cout << "\nEnter Book ID : ";
     cin >> userInput; 
 
     Book* curr = head;
@@ -179,36 +161,56 @@ void Library::viewBookInfo(){
     }
 }
 
-void Library::displayAllBook(){
+//for Sarvien - add some interfaces here for attractive looking lol
+void Library::editBook(){
     if(isEmpty()){
-        cout << "\nEmpty library ...\n";
         return;
     }
     
-    MergeSort(&head);
+    string userInput;
+    cout << "\nEnter Book ID : ";
+    cin >> userInput;
 
-    Book* current = head;
-    cout << "+" << setfill('-') << setw(7) << "+" << setw(45) << "+" << setw(21) << "+" << setw(13) << "+" << endl;
-    cout << "|" << setfill(' ') << setw(6) << left << "ID" << "|" << setw(44) << left << "Title" << "|"
-                << setw(20) << left << "Author" << "|" << setw(12) << left << "Genre" << "|" << endl;
+    Book* curr = head;
+    while(curr != NULL){
+        if(curr -> ID == userInput){
+            cout<<"\nEditing book with ID "<< curr -> ID << endl;
 
-    while (current != NULL) {
-        cout << "|" << setfill('-') << setw(7) << right << "|" << setw(45) << "|" << setw(21) << "|" << setw(13) << "|" << endl;
-        cout << "|" << setfill(' ') << setw(6) << left << current->ID << "|" << setw(44) << left << current->title << "|"
-                    << setw(20) << left << current->author << "|" << setw(12) << left << current->genre << "|" << endl;
-        current = current -> next;
-    } 
-    cout << "+" << setfill('-') << setw(7) << right << "+" << setw(45) << "+" << setw(21) << "+" << setw(13) << "+" << endl;
-}
+            cout << "\nTitle : ";
+            getline(cin, userInput);
+            curr -> title = userInput;
+            cout << "\nAuthor: ";
+            getline(cin, userInput);
+            curr -> author = userInput;
+            cout << "\nGenre : ";
+            getline(cin, userInput);
+            curr -> genre = userInput;
+            cout << "\nYear  : ";
+            getline(cin, userInput);
+            curr -> year = stoi(userInput);
+            cout << "\nISBN  : ";
+            getline(cin, userInput);
+            curr -> ISBN = stoll(userInput);
+            cout << "\nPublisher  : ";
+            getline(cin, userInput);
+            curr -> publisher = userInput;
 
-void Library::deleteBook() {
+            cout << "\nBook with ID " << curr -> ID << " edited successfully ...\n";
+            return;
+        }
+        curr = curr -> next;
+    }
+    cout << "\nBook didn't exist in system ...\n";
+    return;
+}  
+
+void Library::deleteBook(){
     if (isEmpty()) {
-        cout << "\nEmpty library ...\n";
         return;
     }
 
     string userInput;
-    cout << "\nEnter Book ID: ";
+    cout << "\nEnter Book ID : ";
     cin >> userInput;
 
     Book* curr = head;
@@ -228,9 +230,8 @@ void Library::deleteBook() {
             totalBook--;
             return;
         }
-
         prev = curr;
-        curr = curr->next;
+        curr = curr -> next;
     }
 
     cout << "\nBook with ID " << userInput << " not found ...\n";
@@ -241,19 +242,19 @@ void Library::deleteAllBook(){
         return;
     }
 
-    Book* current = head;
+    Book* curr = head;
     Book* nextBook;
-    while(current != NULL){
-        nextBook = current -> next;
-        delete current;
-        current = nextBook;
+    while(curr != NULL){
+        nextBook = curr -> next;
+        delete curr;
+        curr = nextBook;
     }
     head = NULL;
     totalBook = 0;
 }
 
 void Library::loadFile(){
-    ifstream readFile("data.txt");
+    ifstream readFile("bookData.txt");
     if(!readFile.is_open()){
         cout << "\nError: Unable to open file for reading." << endl;
         return;
@@ -263,7 +264,7 @@ void Library::loadFile(){
     string line;
     while(getline(readFile, line)){
         stringstream ss(line);
-        string token;
+        string input;
 
         string ID, title, author, genre, publisher;
         int year;
@@ -273,44 +274,45 @@ void Library::loadFile(){
         getline(ss, title, '~');
         getline(ss, author, '~');
         getline(ss, genre, '~');
-        getline(ss, token, '~');
-        year = stoi(token);
-        getline(ss, token, '~');
-        ISBN = stoll(token);
+        getline(ss, input, '~');
+        year = stoi(input);
+        getline(ss, input, '~');
+        ISBN = stoll(input);
         getline(ss, publisher, '~');
 
-        Book tempBook{ID, title, author, genre, publisher, year, ISBN, NULL};
-        Queue.push(tempBook);
+        Book temp{ID, title, author, genre, publisher, year, ISBN, NULL};
+        Queue.push(temp);
     }
 
-    while (!Queue.empty()) {
-        Book current = Queue.front();
+    while (!Queue.empty()){
+        Book curr = Queue.front();
         Queue.pop();
 
-        addBook(current.ID, current.title, current.author,
-                current.genre, current.year, current.ISBN,
-                current.publisher);
+        addBook(curr.ID, curr.title, curr.author, curr.genre, curr.year,
+                curr.ISBN, curr.publisher);
     }
-    cout << "\n File loaded successfully" << endl;
+
+    cout << "\n Book data loaded successfully" << endl;
     readFile.close();
 }
 
 void Library::saveFile(){
-    ofstream writeFile("data.txt");
+    ofstream writeFile("bookData.txt");
     if(!writeFile.is_open()){
         cout << "\nError: Unable to open file for writing." << endl;
         return;
     }
     
-    Book* current = head;
-    while(current != NULL){
-        writeFile << current -> ID << '~' << current -> title << '~'
-                  << current -> author << '~' << current -> genre << '~'
-                  << current -> year << '~' << current -> ISBN << '~'
-                  << current -> publisher << '~' << endl;
-        current = current -> next;
+    Book* curr = head;
+    while(curr != NULL){
+        writeFile << curr -> ID << '~' << curr -> title << '~'
+                  << curr -> author << '~' << curr -> genre << '~'
+                  << curr -> year << '~' << curr -> ISBN << '~'
+                  << curr -> publisher << '~' << endl;
+        curr = curr -> next;
     }
-    cout << "\n File saved successfully" << endl;
+
+    cout << "\n Book data saved successfully" << endl;
     writeFile.close();
 }
 

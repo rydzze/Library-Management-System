@@ -1,9 +1,9 @@
 #include <cstdlib>
 using namespace std;
-#ifndef LIBRARY_SYS_HPP
-#define LIBRARY_SYS_HPP
+#ifndef LIBRARY_HPP
+#define LIBRARY_HPP
 
-namespace System{
+namespace LibSys{
 
 class Library{
     private:
@@ -18,22 +18,21 @@ class Library{
         Book* head;
         
     public:
-
         Library();
         ~Library();
 
         bool isEmpty(); 
         int getTotalBook();
         int getBookIDCounter();
-        string generateBookID(const string& genre, int n);
+        string generateBookID(const string& genre);
 
         void addBook();
         void addBook(const string& ID, const string& title, const string& author,
                      const string& genre, const int& year, const long long int& ISBN,
                      const string& publisher);
-        void editBook();
-        void viewBookInfo();
         void displayAllBook();
+        void viewBookInfo();
+        void editBook();
         void deleteBook();
         void deleteAllBook();
 
