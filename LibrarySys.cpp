@@ -180,6 +180,8 @@ void Library::displayAllBook(){
         return;
     }
     
+    MergeSort(&head);
+
     Book* current = head;
     cout << "+" << setfill('-') << setw(7) << "+" << setw(45) << "+" << setw(21) << "+" << setw(13) << "+" << endl;
     cout << "|" << setfill(' ') << setw(6) << left << "ID" << "|" << setw(44) << left << "Title" << "|"
@@ -194,9 +196,8 @@ void Library::displayAllBook(){
     cout << "+" << setfill('-') << setw(7) << right << "+" << setw(45) << "+" << setw(21) << "+" << setw(13) << "+" << endl;
 }
 
-//for Nawfal - do some fixing here, kinda redundant ...
-void Library::deleteBook(){
-    if(isEmpty()){
+void Library::deleteBook() {
+    if (isEmpty()) {
         cout << "\nEmpty library ...\n";
         return;
     }
@@ -204,31 +205,30 @@ void Library::deleteBook(){
     string userInput;
     cout << "\nEnter Book ID: ";
     cin >> userInput;
-    
+
     Book* curr = head;
     Book* prev = NULL;
 
-    if(curr != NULL && curr -> ID == userInput){
-        head = curr -> next;
-        delete curr;
-        totalBook--;
-        cout << "\nBook with ID " << userInput << " removed successfully ...\n";
-        return; 
-    }
-    while(curr != NULL && curr -> ID != userInput){
+    while (curr != NULL){
+        if(curr -> ID == userInput){
+            if (prev == NULL){
+                head = curr -> next;
+            }
+            else{
+                prev -> next = curr -> next;
+            }
+
+            cout << "\nBook with ID " << userInput << " removed successfully ...\n";
+            delete curr;
+            totalBook--;
+            return;
+        }
+
         prev = curr;
-        curr = curr -> next;
+        curr = curr->next;
     }
-    if(curr == NULL){
-        cout << "\nBook didn't exist in system ...\n";
-        return;
-    }
-    
-    prev -> next = curr -> next;
-    curr -> next = NULL;
-    delete curr;
-    cout << "\nBook with ID " << userInput << " removed successfully ...\n";
-    totalBook--;
+
+    cout << "\nBook with ID " << userInput << " not found ...\n";
 }
 
 void Library::deleteAllBook(){
@@ -326,10 +326,6 @@ int Library::compareBookID(const string& id1, const string& id2) {
     int num2 = stoi(id2.substr(1));
 
     return num1 - num2;
-}
-
-void Library::MergeSort() {
-    MergeSort(&head);
 }
 
 void Library::MergeSort(Book** headRef) {

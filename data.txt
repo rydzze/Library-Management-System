@@ -1,3 +1,8 @@
+S001~A Brief History of Time~Stephen Hawking~Science~1988~9780553380163~Bantam Books~
+S002~The Selfish Gene~Richard Dawkins~Science~1976~9780192860927~Oxford University Press~
+S003~Cosmos~Carl Sagan~Science~1980~9780345539434~Random House~
+S004~The Elegant Universe~Brian Greene~Science~1999~9780375708114~Vintage Books~
+S005~The Double Helix~James D. Watson~Science~1968~9780743216302~Touchstone~
 C016~Watchmen~Alan Moore~Comic~1987~9780930289232~DC Comics~
 C017~Batman: The Killing Joke~Alan Moore~Comic~1988~9780930289454~DC Comics~
 C018~Maus~Art Spiegelman~Comic~1986~9780394747231~Pantheon Books~
@@ -18,8 +23,3 @@ P022~Being and Time~Martin Heidegger~Philosophy~1927~9780061575594~Harper Perenn
 P023~Thus Spoke Zarathustra~Friedrich Nietzsche~Philosophy~1883~9780140441185~Penguin Classics~
 P024~A Theory of Justice~John Rawls~Philosophy~1971~9780674880162~Belknap Press~
 P025~Being and Nothingness~Jean-Paul Sartre~Philosophy~1943~9780671867805~Washington Square Press~
-S001~A Brief History of Time~Stephen Hawking~Science~1988~9780553380163~Bantam Books~
-S002~The Selfish Gene~Richard Dawkins~Science~1976~9780192860927~Oxford University Press~
-S003~Cosmos~Carl Sagan~Science~1980~9780345539434~Random House~
-S004~The Elegant Universe~Brian Greene~Science~1999~9780375708114~Vintage Books~
-S005~The Double Helix~James D. Watson~Science~1968~9780743216302~Touchstone~

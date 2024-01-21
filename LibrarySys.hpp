@@ -39,9 +39,8 @@ class Library{
 
         void loadFile();
         void saveFile();
-
+        
         int compareBookID(const string& id1, const string& id2);
-        void MergeSort();
         void MergeSort(Book** headRef);
         Book* SortedMerge(Book* a, Book* b);
         void FrontBackSplit(Book* source, Book** frontRef, Book** backRef);

@@ -53,7 +53,6 @@ int main(){
                 library.searchBookInfo(id);
                 break;
             case 4:
-                library.MergeSort();
                 library.displayAllBook();
                 break;
             case 5:
