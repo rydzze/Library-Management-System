@@ -62,6 +62,10 @@
     "*.tcc": "cpp",
     "compare": "cpp",
     "limits": "cpp",
-    "type_traits": "cpp"
+    "type_traits": "cpp",
+    "iosfwd": "cpp",
+    "cstdlib": "cpp",
+    "ostream": "cpp",
+    "random": "cpp"
   }
 }

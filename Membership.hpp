@@ -23,12 +23,14 @@ class Membership{
         int getTotalMember();
         int getMemberIDCounter();
         string generateMemberID();
+
+        bool checkMembership(const string& ID);
+        string getName(const string& ID);
         
         void addMember();
         void addMember(const string& ID, const string& name,
                        const string& phoneNum, const string& email);
         void displayAllMember();
-        void viewMemberInfo();
         void editMember();
         void deleteMember();
         void deleteAllMember();

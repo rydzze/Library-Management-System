@@ -62,6 +62,9 @@ void Library::addBook(){
     cout << "\nPublisher  : ";
     getline(cin, userInput);
     newBook -> publisher = userInput;
+    newBook -> borrowStatus = false;
+    newBook -> memberID = "";
+    newBook -> memberName = "";
 
     newBook -> next = NULL;
 
@@ -78,11 +81,12 @@ void Library::addBook(){
 
     bookIDCounter++;
     totalBook++;
+    sorted = false;
 }
 
-void Library::addBook(const string& ID, const string& title, const string& author,
-                      const string& genre, const int& year, const long long int& ISBN,
-                      const string& publisher)
+void Library::addBook(const string& ID, const string& title, const string& author, const string& genre,
+                     const int& year, const long long int& ISBN, const string& publisher,
+                     const bool& borrowStatus, const string& memberID, const string& memberName)
 {
     Book *newBook = new Book;
     newBook -> ID = ID;
@@ -92,6 +96,9 @@ void Library::addBook(const string& ID, const string& title, const string& autho
     newBook -> year = year;
     newBook -> ISBN = ISBN;
     newBook -> publisher = publisher;
+    newBook -> borrowStatus = borrowStatus;
+    newBook -> memberID = memberID;
+    newBook -> memberName = memberName;
     newBook -> next = NULL;
 
     if(isEmpty()){
@@ -109,20 +116,24 @@ void Library::addBook(const string& ID, const string& title, const string& autho
     totalBook++;
 }
 
+//add column to check book availability
 void Library::displayAllBook(){
     if(isEmpty()){
         cout << "\nEmpty library ...\n";
         return;
     }
-    
-    MergeSort(&head);
+
+    if(!sorted){
+        mergeSort(head);
+        sorted = true;
+    }
 
     Book* curr = head;
     cout << "+" << setfill('-') << setw(7) << "+" << setw(45) << "+" << setw(21) << "+" << setw(13) << "+" << endl;
     cout << "|" << setfill(' ') << setw(6) << left << "ID" << "|" << setw(44) << left << "Title" << "|"
                 << setw(20) << left << "Author" << "|" << setw(12) << left << "Genre" << "|" << endl;
 
-    while (curr != NULL) {
+    while (curr != NULL){
         cout << "|" << setfill('-') << setw(7) << right << "|" << setw(45) << "|" << setw(21) << "|" << setw(13) << "|" << endl;
         cout << "|" << setfill(' ') << setw(6) << left << curr -> ID << "|" << setw(44) << left << curr -> title << "|"
                     << setw(20) << left << curr -> author << "|" << setw(12) << left << curr -> genre << "|" << endl;
@@ -152,6 +163,16 @@ void Library::viewBookInfo(){
             cout << "|" << setfill(' ') << left << setw(12) << " ISBN" << "| " << setw(45) << curr->ISBN << "|" << endl;
             cout << "|" << setfill(' ') << left << setw(12) << " Publisher" << "| " << setw(45) << curr->publisher << "|" << endl;
             cout << "+" << setfill('-') << setw(13) << right << "+" << setfill('-') << setw(47) << "+" << endl;
+            
+            if(curr -> borrowStatus == true){
+                cout << "\nBorrow Status : Borrowed\n" << endl;
+                cout << "\nMember ID     : " << curr -> memberID << endl;
+                cout << "\nMember Name   : " << curr -> memberName << endl;
+            }
+            else{
+                cout << "\nBorrow Status : Available for borrow" << endl;
+            }
+
             return;
         }
         curr = curr -> next;
@@ -174,6 +195,13 @@ void Library::editBook(){
     Book* curr = head;
     while(curr != NULL){
         if(curr -> ID == userInput){
+
+            if(curr -> borrowStatus == true){
+                cout << "\nBook was borrowed by someone ...";
+                cout << "\nUnable to edit book info ...";
+                return;
+            }
+
             cout<<"\nEditing book with ID "<< curr -> ID << endl;
 
             cout << "\nTitle : ";
@@ -218,6 +246,13 @@ void Library::deleteBook(){
 
     while (curr != NULL){
         if(curr -> ID == userInput){
+
+            if(curr -> borrowStatus == true){
+                cout << "\nBook was borrowed by someone ...";
+                cout << "\nUnable to delete book from data ...";
+                return;
+            }
+
             if (prev == NULL){
                 head = curr -> next;
             }
@@ -253,6 +288,66 @@ void Library::deleteAllBook(){
     totalBook = 0;
 }
 
+void Library::borrowBook(const string& ID, const string& name){
+    if(isEmpty()){
+        cout << "\nEmpty library ...\n";
+        return;
+    }
+
+    string userInput;
+    cout << "\nEnter Book ID : ";
+    cin >> userInput;
+
+    Book* curr = head;
+    while(curr != NULL){
+        if(curr -> ID == userInput){
+            if(curr -> borrowStatus == true){
+                cout << "\nThe book was borrowed by someone else ...\n";
+                return;
+            }
+            
+            curr -> borrowStatus = true;
+            curr -> memberID = ID;
+            curr -> memberName = name;
+            cout << "\nBook with ID " << curr -> ID << " has been borrowed!\n";
+            return;
+        }
+        curr = curr -> next;
+    }
+    cout << "\nBook didn't exist in system ...\n";
+    return;
+}
+
+void Library::returnBook(){
+    if(isEmpty()){
+        cout << "\nEmpty library ...\n";
+        return;
+    }
+
+    string userInput;
+    cout << "\nEnter Book ID : ";
+    cin >> userInput;
+
+    Book* curr = head;
+    while(curr != NULL){
+        if(curr -> ID == userInput){
+            if(curr -> borrowStatus == false){
+                cout << "\nThe book is not borrowed ...\n";
+                return;
+            }
+
+            curr -> borrowStatus = false;
+            curr -> memberID = "";
+            curr -> memberName = "";
+            cout << "\nBook with ID " << curr -> ID << " have been returned!\n";
+            return;
+        }
+        curr = curr -> next;
+    }
+    cout << "\nBook didn't exist in system ...\n";
+    return;
+}
+
 void Library::loadFile(){
     ifstream readFile("bookData.txt");
     if(!readFile.is_open()){
@@ -266,9 +361,10 @@ void Library::loadFile(){
         stringstream ss(line);
         string input;
 
-        string ID, title, author, genre, publisher;
+        string ID, title, author, genre, publisher, memberID, memberName;
         int year;
         long long int ISBN;
+        bool borrowStatus;
 
         getline(ss, ID, '~');
         getline(ss, title, '~');
@@ -279,8 +375,12 @@ void Library::loadFile(){
         getline(ss, input, '~');
         ISBN = stoll(input);
         getline(ss, publisher, '~');
+        getline(ss, input, '~');
+        borrowStatus = (input == "1" ? true : false); //terniary operator if-else
+        getline(ss, memberID, '~');
+        getline(ss, memberName, '~');
 
-        Book temp{ID, title, author, genre, publisher, year, ISBN, NULL};
+        Book temp{ID, title, author, genre, publisher, year, ISBN, borrowStatus, memberID, memberName, NULL};
         Queue.push(temp);
     }
 
@@ -288,8 +388,8 @@ void Library::loadFile(){
         Book curr = Queue.front();
         Queue.pop();
 
-        addBook(curr.ID, curr.title, curr.author, curr.genre, curr.year,
-                curr.ISBN, curr.publisher);
+        addBook(curr.ID, curr.title, curr.author, curr.genre, curr.year, curr.ISBN,
+                curr.publisher, curr.borrowStatus, curr.memberID, curr.memberName);
     }
 
     cout << "\n Book data loaded successfully" << endl;
@@ -308,7 +408,8 @@ void Library::saveFile(){
         writeFile << curr -> ID << '~' << curr -> title << '~'
                   << curr -> author << '~' << curr -> genre << '~'
                   << curr -> year << '~' << curr -> ISBN << '~'
-                  << curr -> publisher << '~' << endl;
+                  << curr -> publisher << '~' << curr -> borrowStatus << '~'
+                  << curr -> memberID << '~' << curr -> memberName << '~' << endl;
         curr = curr -> next;
     }
 
@@ -318,73 +419,57 @@ void Library::saveFile(){
 
 
 
-//for Ariff - SIMPLIFY THE CODE BELOW !!!
+int Library::compareBookID(const string& ID1, const string& ID2) {
+    char genreB1 = ID1[0];
+    char genreB2 = ID2[0];
 
-int Library::compareBookID(const string& id1, const string& id2) {
-    char letter1 = id1[0];
-    char letter2 = id2[0];
-
-    if (letter1 != letter2) {
-        return letter1 - letter2;
+    if (genreB1 != genreB2) {
+        return genreB1 - genreB2;
     }
 
-    // If the first characters are the same, compare the numeric parts
-    int num1 = stoi(id1.substr(1));
-    int num2 = stoi(id2.substr(1));
+    int num1 = stoi(ID1.substr(1));
+    int num2 = stoi(ID2.substr(1));
 
     return num1 - num2;
 }
 
-void Library::MergeSort(Book** headRef) {
-    Book* head = *headRef;
-    Book* a;
-    Book* b;
-
-    if (head == NULL || head -> next == NULL) {
+void Library::mergeSort(Book*& head){
+    if(head == NULL || head -> next == NULL) {
         return;
     }
+    Book* left;
+    Book* right;
 
-    FrontBackSplit(head, &a, &b);
+    divideList(head, left, right);
+    mergeSort(left);
+    mergeSort(right);
 
-    MergeSort(&a);
-    MergeSort(&b);
-
-    *headRef = SortedMerge(a, b);
+    head = merge(left, right);
 }
 
-Library::Book* Library::SortedMerge(Book* a, Book* b) {
-    Book* result = NULL;
+Library::Book* Library::merge(Book* left, Book* right){
+    if (left == NULL)      return right;
+    else if (right == NULL) return left;
 
-    if (a == NULL)
-        return b;
-    else if (b == NULL)
-        return a;
-
-    if (compareBookID(a->ID, b->ID) <= 0) {
-        result = a;
-        result -> next = SortedMerge(a -> next, b);
+    if (compareBookID(left -> ID, right -> ID) <= 0){
+        left -> next = merge(left -> next, right);
+        return left;
     } else {
-        result = b;
-        result -> next = SortedMerge(a, b -> next);
+        right -> next = merge(left, right -> next);
+        return right;
     }
-    return result;
 }
 
-void Library::FrontBackSplit(Book* source, Book** frontRef, Book** backRef) {
-    Book* fast;
-    Book* slow;
-    slow = source;
-    fast = source -> next;
+void Library::divideList(Book* head, Book*& firstList, Book*& secondList){
+    Book* slow = head;
+    Book* fast = head -> next;
 
-    while (fast != NULL) {
-        fast = fast -> next;
-        if (fast != NULL) {
-            slow = slow -> next;
-            fast = fast -> next;
-        }
+    while (fast != NULL && fast -> next != NULL){
+        slow = slow -> next;
+        fast = fast -> next -> next;
     }
 
-    *frontRef = source;
-    *backRef = slow -> next;
+    firstList = head;
+    secondList = slow -> next;
     slow -> next = NULL;
 }

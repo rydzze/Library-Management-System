@@ -16,7 +16,9 @@ int main(){
     Membership member;
     init(library, member);
     
+    string userInput = "";
     int choice = 0;
+    bool proceed;
 
     do{
         system("cls");
@@ -31,13 +33,15 @@ int main(){
         cout << "\n\t5.  Delete existing book\n";
 
         cout << "\n\t6.  Add new member";
-        cout << "\n\t7.  View member info";
+        cout << "\n\t7.  Display all members";
         cout << "\n\t8.  Edit member info";
-        cout << "\n\t9.  Display all members";
-        cout << "\n\t10. Delete existing member\n";
+        cout << "\n\t9.  Delete existing member\n";
 
-        cout << "\n\t11. Load data";
-        cout << "\n\t12. Save data";
+        cout << "\n\t10. Borrow a book";
+        cout << "\n\t11. Return a book\n";
+
+        cout << "\n\t12. Load data";
+        cout << "\n\t13. Save data";
         
         cout << "\n\n\t0.  Exit System\n";
 
@@ -70,7 +74,6 @@ int main(){
                 break;
             case 7:
                 member.displayAllMember();
-                member.viewMemberInfo();
                 break;
             case 8:
                 member.displayAllMember();
@@ -78,18 +81,26 @@ int main(){
                 break;
             case 9:
                 member.displayAllMember();
-                break;
-            case 10:
-                member.displayAllMember();
                 member.deleteMember();
                 break;
+            case 10:
+                cout << "\nEnter Member ID : ";
+                cin >> userInput;
+                proceed = member.checkMembership(userInput);
+                if(proceed){
+                    library.borrowBook(userInput, member.getName(userInput));
+                }
+                break;
             case 11:
+                library.returnBook();
+                break;
+            case 12:
                 library.deleteAllBook();
                 member.deleteAllMember();
                 library.loadFile();
                 member.loadFile();
                 break;
-            case 12:
+            case 13:
                 library.saveFile();
                 member.saveFile();
                 break;

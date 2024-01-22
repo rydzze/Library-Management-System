@@ -8,12 +8,9 @@
 using namespace std;
 using namespace MemberSys;
 
-//check again display and view func for interface
 //adjust interface for add and edit func
-//add variable to see what book they borrow
-// then readjust view member info func
 
-Membership::Membership() : head(NULL), totalMember(0){}
+Membership::Membership() : head(NULL), totalMember(0), memberIDCounter(0){}
 
 Membership::~Membership(){
     Membership::deleteAllMember();
@@ -37,6 +34,32 @@ string Membership::generateMemberID(){
     return id.str();
 }
 
+bool Membership::checkMembership(const string& ID){
+    Member* curr = head;
+
+    while(curr != NULL){
+        if(curr -> ID == ID){
+            return true;
+        }
+        curr = curr -> next;
+    }
+    cout << "\nMember didn't exist in system ...";
+    cout << "\nMake sure to register before borrowing a book\n";
+    return false;
+}
+
+string Membership::getName(const string& ID){
+    Member* curr = head;
+
+    while(curr != NULL){
+        if(curr -> ID == ID){
+            return curr -> name;
+        }
+        curr = curr -> next;
+    }
+    return "";
+}
+
 void Membership::addMember(){
     string userInput;
 
@@ -45,8 +68,10 @@ void Membership::addMember(){
     getline(cin, userInput);
     newMember -> name = userInput;
     cout << "\nPhone Number  : ";
+    getline(cin, userInput);
     newMember -> phoneNum = userInput;
     cout << "\nEmail Address : ";
+    getline(cin, userInput);
     newMember -> email = userInput;
     newMember -> ID = generateMemberID();
 
@@ -99,20 +124,17 @@ void Membership::displayAllMember(){
     }
 
     Member* curr = head;
-    //implement display, refer Library
-}
+    cout << "+" << setfill('-') << setw(7) << "+" << setw(20) << "+" << setw(20) << "+" << setw(35) << "+" << endl;
+    cout << "|" << setfill(' ') << setw(6) << left << "ID" << "|" << setw(19) << left << "Name" << "|"
+         << setw(19) << left << "Phone Number" << "|" << setw(34) << left << "Email Address" << "|" << endl;
 
-void Membership::viewMemberInfo(){
-    if(isEmpty()){
-        return;
+    while(curr != NULL){
+        cout << "|" << setfill('-') << setw(7) << right << "|" << setw(20) << "|" << setw(20) << "|" << setw(35) << "|" << endl;
+        cout << "|" << setfill(' ') << setw(6) << left << curr -> ID << "|" << setw(19) << left << curr -> name << "|"
+                    << setw(19) << left << curr -> phoneNum << "|" << setw(34) << left << curr -> email << "|"  << endl;
+        curr = curr -> next;
     }
-    
-    string userInput;
-    cout << "\nEnter Member ID : ";
-    cin >> userInput;
-
-    Member* curr = head;
-    //implement view, refer Library
+    cout << "+" << setfill('-') << setw(7) << right << "+" << setw(20) << "+" << setw(20) << "+" << setw(35) << "+" << endl;
 }
 
 void Membership::editMember(){
