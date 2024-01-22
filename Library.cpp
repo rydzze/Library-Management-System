@@ -38,28 +38,30 @@ string Library::generateBookID(const string& genre){
     return id.str();
 }
 
-//for Sarvien - add some interfaces here for attractive looking lol
 void Library::addBook(){
     string userInput;
 
+    cout << "\n\tAdding new book into the system ..." << endl;
+    cout << "\t___________________________________" << endl;
+
     Book *newBook = new Book;
-    cout << "\nTitle : ";
+    cout << "\n\tTitle     : ";
     getline(cin, userInput);
     newBook -> title = userInput;
-    cout << "\nAuthor: ";
+    cout << "\n\tAuthor    : ";
     getline(cin, userInput);
     newBook -> author = userInput;
-    cout << "\nGenre : ";
+    cout << "\n\tGenre     : ";
     getline(cin, userInput);
     newBook -> genre = userInput;        
     newBook -> ID = generateBookID(userInput);
-    cout << "\nYear  : ";
+    cout << "\n\tYear      : ";
     getline(cin, userInput);
     newBook -> year = stoi(userInput);
-    cout << "\nISBN  : ";
+    cout << "\n\tISBN      : ";
     getline(cin, userInput);
     newBook -> ISBN = stoll(userInput);
-    cout << "\nPublisher  : ";
+    cout << "\n\tPublisher : ";
     getline(cin, userInput);
     newBook -> publisher = userInput;
     newBook -> borrowStatus = false;
@@ -82,6 +84,9 @@ void Library::addBook(){
     bookIDCounter++;
     totalBook++;
     sorted = false;
+
+    cout << "\n\n\tNew book has been added into the system!";
+    cout << "\n\tBook ID : " << newBook -> ID << endl << endl;
 }
 
 void Library::addBook(const string& ID, const string& title, const string& author, const string& genre,
@@ -116,10 +121,108 @@ void Library::addBook(const string& ID, const string& title, const string& autho
     totalBook++;
 }
 
-//add column to check book availability
+void Library::viewBookInfo(){
+    if(isEmpty()){
+        cout << "\n\tNo book stored in the system :(" << endl << endl;
+        return;
+    }
+    
+    string userInput;
+
+    cout << "\n\tViewing book's info stored in the system ..." << endl;
+    cout << "\t____________________________________________" << endl;
+
+    cout << "\n\tEnter Book ID : ";
+    cin >> userInput; 
+
+    Book* curr = head;
+    while(curr != NULL){
+        if(curr -> ID == userInput){
+            cout << "\n\t+" << setfill('-') << setw(13) << "+" << setfill('-') << setw(47) << "+" << endl;
+            cout << "\t|" << setfill(' ') << left << setw(12) << " Title" << "| " << setw(45) << curr->title << "|" << endl;
+            cout << "\t|" << setfill(' ') << left << setw(12) << " Author" << "| " << setw(45) << curr->author << "|" << endl;
+            cout << "\t|" << setfill(' ') << left << setw(12) << " Genre" << "| " << setw(45) << curr->genre << "|" << endl;
+            cout << "\t|" << setfill(' ') << left << setw(12) << " Year" << "| " << setw(45) << curr->year << "|" << endl;
+            cout << "\t|" << setfill(' ') << left << setw(12) << " ISBN" << "| " << setw(45) << curr->ISBN << "|" << endl;
+            cout << "\t|" << setfill(' ') << left << setw(12) << " Publisher" << "| " << setw(45) << curr->publisher << "|" << endl;
+            cout << "\t+" << setfill('-') << setw(13) << right << "+" << setfill('-') << setw(47) << "+" << endl;
+            
+            if(curr -> borrowStatus == true){
+                cout << "\n\tStatus      : Borrowed" << endl;
+                cout << "\n\tMember ID   : " << curr -> memberID;
+                cout << "\n\tMember Name : " << curr -> memberName << endl << endl;
+            }
+            else{
+                cout << "\n\tStatus : Available for borrow" << endl << endl;
+            }
+            return;
+        }
+        curr = curr -> next;
+    }
+    if(curr == NULL){
+        cout << "\n\tSorry, book with ID " << userInput << " did not exist in the system" << endl << endl;
+    }
+    return;
+}
+
+void Library::editBook(){
+    if(isEmpty()){
+        cout << "\n\tNo book stored in the system :(" << endl << endl;
+        return;
+    }
+    
+    string userInput;
+
+    cout << "\n\tEditing book's info stored in the system ..." << endl;
+    cout << "\t____________________________________________" << endl;
+
+    cout << "\n\tEnter Book ID : ";
+    cin >> userInput;
+
+    Book* curr = head;
+    while(curr != NULL){
+        if(curr -> ID == userInput){
+
+            if(curr -> borrowStatus){
+                cout << "\n\tThis book was borrowed by a member";
+                cout << "\n\tAbort editing process ..." << endl << endl;
+                return;
+            }
+            cout<<"\n\tEditing book's info with ID "<< curr -> ID << endl;
+
+            cin.ignore();
+            cout << "\n\tTitle     : ";
+            getline(cin, userInput);
+            curr -> title = userInput;
+            cout << "\n\tAuthor    : ";
+            getline(cin, userInput);
+            curr -> author = userInput;
+            cout << "\n\tGenre     : ";
+            getline(cin, userInput);
+            curr -> genre = userInput;
+            cout << "\n\tYear      : ";
+            getline(cin, userInput);
+            curr -> year = stoi(userInput);
+            cout << "\n\tISBN      : ";
+            getline(cin, userInput);
+            curr -> ISBN = stoll(userInput);
+            cout << "\n\tPublisher : ";
+            getline(cin, userInput);
+            curr -> publisher = userInput;
+
+            cout << "\n\n\tBook's info with ID " << curr -> ID << " has been edited successfully!" << endl << endl;
+            return;
+        }
+        curr = curr -> next;
+    }
+    cout << "\n\tSorry, book with ID " << userInput << " did not exist in the system" << endl << endl;
+    return;
+}  
+
+//add column to check book availability laterrr
 void Library::displayAllBook(){
     if(isEmpty()){
-        cout << "\nEmpty library ...\n";
+        cout << "\n\tNo book stored in the system :(" << endl << endl;
         return;
     }
 
@@ -142,114 +245,28 @@ void Library::displayAllBook(){
     cout << "+" << setfill('-') << setw(7) << right << "+" << setw(45) << "+" << setw(21) << "+" << setw(13) << "+" << endl;
 }
 
-void Library::viewBookInfo(){
-    if(isEmpty()){
-        return;
-    }
-    
-    string userInput;
-    cout << "\nEnter Book ID : ";
-    cin >> userInput; 
-
-    Book* curr = head;
-    while(curr != NULL)
-    {
-        if(curr -> ID == userInput){
-            cout << "+" << setfill('-') << setw(13) << "+" << setfill('-') << setw(47) << "+" << endl;
-            cout << "|" << setfill(' ') << left << setw(12) << " Title" << "| " << setw(45) << curr->title << "|" << endl;
-            cout << "|" << setfill(' ') << left << setw(12) << " Author" << "| " << setw(45) << curr->author << "|" << endl;
-            cout << "|" << setfill(' ') << left << setw(12) << " Genre" << "| " << setw(45) << curr->genre << "|" << endl;
-            cout << "|" << setfill(' ') << left << setw(12) << " Year" << "| " << setw(45) << curr->year << "|" << endl;
-            cout << "|" << setfill(' ') << left << setw(12) << " ISBN" << "| " << setw(45) << curr->ISBN << "|" << endl;
-            cout << "|" << setfill(' ') << left << setw(12) << " Publisher" << "| " << setw(45) << curr->publisher << "|" << endl;
-            cout << "+" << setfill('-') << setw(13) << right << "+" << setfill('-') << setw(47) << "+" << endl;
-            
-            if(curr -> borrowStatus == true){
-                cout << "\nBorrow Status : Borrowed\n" << endl;
-                cout << "\nMember ID     : " << curr -> memberID << endl;
-                cout << "\nMember Name   : " << curr -> memberName << endl;
-            }
-            else{
-                cout << "\nBorrow Status : Available for borrow" << endl;
-            }
-
-            return;
-        }
-        curr = curr -> next;
-    }
-    if(curr == NULL){
-        cout << "\nBook didn't exist in system ...\n";
-    }
-}
-
-//for Sarvien - add some interfaces here for attractive looking lol
-void Library::editBook(){
-    if(isEmpty()){
-        return;
-    }
-    
-    string userInput;
-    cout << "\nEnter Book ID : ";
-    cin >> userInput;
-
-    Book* curr = head;
-    while(curr != NULL){
-        if(curr -> ID == userInput){
-
-            if(curr -> borrowStatus == true){
-                cout << "\nBook was borrowed by someone ...";
-                cout << "\nUnable to edit book info ...";
-                return;
-            }
-
-            cout<<"\nEditing book with ID "<< curr -> ID << endl;
-
-            cout << "\nTitle : ";
-            getline(cin, userInput);
-            curr -> title = userInput;
-            cout << "\nAuthor: ";
-            getline(cin, userInput);
-            curr -> author = userInput;
-            cout << "\nGenre : ";
-            getline(cin, userInput);
-            curr -> genre = userInput;
-            cout << "\nYear  : ";
-            getline(cin, userInput);
-            curr -> year = stoi(userInput);
-            cout << "\nISBN  : ";
-            getline(cin, userInput);
-            curr -> ISBN = stoll(userInput);
-            cout << "\nPublisher  : ";
-            getline(cin, userInput);
-            curr -> publisher = userInput;
-
-            cout << "\nBook with ID " << curr -> ID << " edited successfully ...\n";
-            return;
-        }
-        curr = curr -> next;
-    }
-    cout << "\nBook didn't exist in system ...\n";
-    return;
-}  
-
 void Library::deleteBook(){
     if (isEmpty()) {
+        cout << "\n\tNo book stored in the system :(" << endl << endl;
         return;
     }
 
     string userInput;
-    cout << "\nEnter Book ID : ";
+
+    cout << "\n\tDeleting book stored in the system ..." << endl;
+    cout << "\t______________________________________" << endl;
+
+    cout << "\n\tEnter Book ID : ";
     cin >> userInput;
 
     Book* curr = head;
     Book* prev = NULL;
-
     while (curr != NULL){
         if(curr -> ID == userInput){
 
-            if(curr -> borrowStatus == true){
-                cout << "\nBook was borrowed by someone ...";
-                cout << "\nUnable to delete book from data ...";
+            if(curr -> borrowStatus){
+                cout << "\n\tThis book was borrowed by a member";
+                cout << "\n\tAbort deletion process ..." << endl << endl;
                 return;
             }
 
@@ -260,7 +277,7 @@ void Library::deleteBook(){
                 prev -> next = curr -> next;
             }
 
-            cout << "\nBook with ID " << userInput << " removed successfully ...\n";
+            cout << "\n\n\tThe book has been deleted successfully!" << endl << endl;
             delete curr;
             totalBook--;
             return;
@@ -268,8 +285,8 @@ void Library::deleteBook(){
         prev = curr;
         curr = curr -> next;
     }
-
-    cout << "\nBook with ID " << userInput << " not found ...\n";
+    cout << "\n\tSorry, book with ID " << userInput << " did not exist in the system" << endl << endl;
+    return;
 }
 
 void Library::deleteAllBook(){
@@ -286,72 +303,87 @@ void Library::deleteAllBook(){
     }
     head = NULL;
     totalBook = 0;
+    bookIDCounter = 0;
 }
 
 void Library::borrowBook(const string& ID, const string& name){
     if(isEmpty()){
-        cout << "\nEmpty library ...\n";
+        cout << "\n\tNo book stored in the system :(" << endl << endl;
         return;
     }
 
     string userInput;
-    cout << "\nEnter Book ID : ";
+
+    cout << "\n\tBorrowing book from the library ..." << endl;
+    cout << "\t___________________________________" << endl;
+
+    cout << "\n\tEnter Book ID : ";
     cin >> userInput;
 
     Book* curr = head;
     while(curr != NULL){
         if(curr -> ID == userInput){
             if(curr -> borrowStatus == true){
-                cout << "\nThe book was borrowed by someone else ...\n";
+                cout << "\n\tSorry, this book was borrowed by another member";
+                cout << "\n\tAbort borrowing process ..." << endl << endl;
                 return;
             }
             
             curr -> borrowStatus = true;
             curr -> memberID = ID;
             curr -> memberName = name;
-            cout << "\nBook with ID " << curr -> ID << " has been borrowed!\n";
+            cout << "\n\tBook with ID " << curr -> ID << " has been borrowed by the member!";
+            cout << "\n\n\tMember's Info";
+            cout << "\n\tID   : " << ID;
+            cout << "\n\tName : " << name << endl << endl;
             return;
         }
         curr = curr -> next;
     }
-    cout << "\nBook didn't exist in system ...\n";
+    cout << "\n\tSorry, book with ID " << userInput << " did not exist in the system" << endl << endl;
     return;
 }
 
-void Library::returnBook(){
+string Library::returnBook(){
     if(isEmpty()){
-        cout << "\nEmpty library ...\n";
-        return;
+        cout << "\n\tNo book stored in the system :(" << endl << endl;
+        return "";
     }
 
-    string userInput;
-    cout << "\nEnter Book ID : ";
+    string userInput, temp;
+
+    cout << "\n\tReturning book to the library ..." << endl;
+    cout << "\t_________________________________" << endl;
+
+    cout << "\n\tEnter Book ID : ";
     cin >> userInput;
 
     Book* curr = head;
     while(curr != NULL){
         if(curr -> ID == userInput){
             if(curr -> borrowStatus == false){
-                cout << "\nThe book is not borrowed ...\n";
-                return;
+                cout << "\n\tThe book is not borrowed by any member";
+                cout << "\n\tAbort returning process ..." << endl << endl;
+                return "";
             }
 
             curr -> borrowStatus = false;
+            temp = curr -> memberID;
             curr -> memberID = "";
             curr -> memberName = "";
-            cout << "\nBook with ID " << curr -> ID << " have been returned!\n";
-            return;
+            cout << "\n\tBook with ID " << curr -> ID << " has been returned!" << endl << endl;
+            return temp;
         }
         curr = curr -> next;
     }
-    cout << "\nBook didn't exist in system ...\n";
-    return;
+    cout << "\n\tSorry, book with ID " << userInput << " did not exist in the system" << endl << endl;
+    return "";
 }
 
 void Library::loadFile(){
     ifstream readFile("bookData.txt");
     if(!readFile.is_open()){
-        cout << "\nError: Unable to open file for reading." << endl;
+        cout << "\n ERROR! Unable to read from book data ...";
         return;
     }
 
@@ -392,14 +424,14 @@ void Library::loadFile(){
                 curr.publisher, curr.borrowStatus, curr.memberID, curr.memberName);
     }
 
-    cout << "\n Book data loaded successfully" << endl;
+    cout << "\n Book data loaded successfully";
     readFile.close();
 }
 
 void Library::saveFile(){
     ofstream writeFile("bookData.txt");
     if(!writeFile.is_open()){
-        cout << "\nError: Unable to open file for writing." << endl;
+        cout << "\n ERROR! Unable to write into book data ...";
         return;
     }
     
@@ -413,7 +445,7 @@ void Library::saveFile(){
         curr = curr -> next;
     }
 
-    cout << "\n Book data saved successfully" << endl;
+    cout << "\n Book data saved successfully";
     writeFile.close();
 }
 

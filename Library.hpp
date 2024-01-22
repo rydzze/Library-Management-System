@@ -33,14 +33,14 @@ class Library{
         void addBook(const string& ID, const string& title, const string& author, const string& genre,
                      const int& year, const long long int& ISBN, const string& publisher,
                      const bool& borrowStatus, const string& memberID, const string& memberName);
-        void displayAllBook();
         void viewBookInfo();
         void editBook();
+        void displayAllBook();
         void deleteBook();
         void deleteAllBook();
 
         void borrowBook(const string& ID, const string& name);
-        void returnBook();
+        string returnBook();
 
         void loadFile();
         void saveFile();

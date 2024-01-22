@@ -8,8 +8,6 @@
 using namespace std;
 using namespace MemberSys;
 
-//adjust interface for add and edit func
-
 Membership::Membership() : head(NULL), totalMember(0), memberIDCounter(0){}
 
 Membership::~Membership(){
@@ -43,8 +41,8 @@ bool Membership::checkMembership(const string& ID){
         }
         curr = curr -> next;
     }
-    cout << "\nMember didn't exist in system ...";
-    cout << "\nMake sure to register before borrowing a book\n";
+    cout << "\n\tMember with ID " << ID << " did not exist in the system";
+    cout << "\n\tMake sure to register before borrowing a book" << endl << endl;
     return false;
 }
 
@@ -60,20 +58,37 @@ string Membership::getName(const string& ID){
     return "";
 }
 
+void Membership::changeBorrowStatus(const string& ID){
+    Member* curr = head;
+
+    while(curr != NULL){
+        if(curr -> ID == ID){
+            curr -> borrowStatus = !(curr -> borrowStatus);
+        }
+        curr = curr -> next;
+    }
+    return;
+}
+
 void Membership::addMember(){
     string userInput;
 
+    cout << "\n\tNEW MEMBER REGISTRATION :D !!!" << endl;
+    cout << "\t______________________________" << endl;
+    cout << "\n\n\tPlease fill in your details :)" << endl;
+
     Member* newMember = new Member;
-    cout << "\nFull Name     : ";
+    cout << "\n\tFull Name     : ";
     getline(cin, userInput);
     newMember -> name = userInput;
-    cout << "\nPhone Number  : ";
+    cout << "\n\tPhone Number  : ";
     getline(cin, userInput);
     newMember -> phoneNum = userInput;
-    cout << "\nEmail Address : ";
+    cout << "\n\tEmail Address : ";
     getline(cin, userInput);
     newMember -> email = userInput;
     newMember -> ID = generateMemberID();
+    newMember -> borrowStatus = false;
 
     newMember -> next = NULL;
 
@@ -90,16 +105,19 @@ void Membership::addMember(){
 
     memberIDCounter++;
     totalMember++;
+
+    cout << "\n\n\tWelcome, " << newMember -> name << "! Your member ID is " << newMember -> ID << endl << endl;
 }
 
-void Membership::addMember(const string& ID, const string& name,
-                           const string& phoneNum, const string& email)
+void Membership::addMember(const string& ID, const string& name, const string& phoneNum,
+                           const string& email, const bool& borrowStatus)
 {
     Member* newMember = new Member;
     newMember -> ID = ID;
     newMember -> name = name;
     newMember -> phoneNum = phoneNum;
     newMember -> email = email;
+    newMember -> borrowStatus = borrowStatus;
     newMember -> next = NULL;
 
     if(isEmpty()){
@@ -119,7 +137,7 @@ void Membership::addMember(const string& ID, const string& name,
 
 void Membership::displayAllMember(){
     if(isEmpty()){
-        cout << "\nNo member registered ...\n";
+        cout << "\n\tNo member registered in the system :(" << endl << endl;
         return;
     }
 
@@ -139,42 +157,62 @@ void Membership::displayAllMember(){
 
 void Membership::editMember(){
     if(isEmpty()){
+        cout << "\n\tNo member registered in the system :(" << endl << endl;
         return;
     }
     
     string userInput;
-    cout << "\nEnter Member ID : ";
+
+    cout << "\n\tEditing member's info stored in the system ..." << endl;
+    cout << "\t______________________________________________" << endl;
+
+    cout << "\n\tEnter Member ID : ";
     cin >> userInput;
 
-    Member* curr = new Member;
+    Member* curr = head;
     while(curr != NULL){
         if(curr -> ID == userInput){
-            cout<<"\nEditing member with ID "<< curr -> ID << endl;
 
-            cout << "\nFull Name     : ";
+            if(curr -> borrowStatus){
+                cout << "\n\tThis member borrowed a book currently";
+                cout << "\n\tAbort editing process ..." << endl << endl;
+                return;
+            }
+
+            cout<<"\n\tEditing member's info with ID "<< curr -> ID << endl;
+
+            cin.ignore();
+            cout << "\n\tFull Name     : ";
             getline(cin, userInput);
             curr -> name = userInput;
-            cout << "\nPhone Number  : ";
+            cout << "\n\tPhone Number  : ";
+            getline(cin, userInput);
             curr -> phoneNum = userInput;
-            cout << "\nEmail Address : ";
+            cout << "\n\tEmail Address : ";
+            getline(cin, userInput);
             curr -> email = userInput;
 
-            cout << "\nMember with ID " << curr -> ID << " edited successfully ...\n";
+            cout << "\n\tMember's info with ID " << curr -> ID << " has been edited successfully!" << endl << endl;
             return;
         }
         curr = curr -> next;
     }
-    cout << "\nMember didn't exist in system ...\n";
+    cout << "\n\tSorry, member with ID " << userInput << " did not exist in the system" << endl << endl;
     return;
 }
 
 void Membership::deleteMember(){
     if(isEmpty()){
+        cout << "\n\tNo member registered in the system :(" << endl << endl;
         return;
     }
 
     string userInput;
-    cout << "\nEnter Member ID : ";
+
+    cout << "\n\tRemoving member from membership ..." << endl;
+    cout << "\t___________________________________" << endl;
+
+    cout << "\n\tEnter Member ID : ";
     cin >> userInput;
 
     Member* curr = head;
@@ -182,6 +220,13 @@ void Membership::deleteMember(){
 
     while(curr != NULL){
         if(curr -> ID == userInput){
+
+            if(curr -> borrowStatus){
+                cout << "\n\tThis member borrowed a book currently";
+                cout << "\n\tAbort deletion process ..." << endl << endl;
+                return;
+            }
+
             if(prev == NULL){
                 head = curr -> next;
             }
@@ -189,7 +234,7 @@ void Membership::deleteMember(){
                 prev -> next = curr -> next;
             }
 
-            cout << "\nMember with ID " << userInput << " removed successfully ...\n";
+            cout << "\n\n\tThe member has been removed successfully :(" << endl << endl;
             delete curr;
             totalMember--;
             return;
@@ -198,7 +243,8 @@ void Membership::deleteMember(){
         curr = curr -> next;
     }
 
-    cout << "\nMember with ID " << userInput << " not found ...\n";
+    cout << "\n\tSorry, member with ID " << userInput << " did not exist in the system" << endl << endl;
+    return;
 }
 
 void Membership::deleteAllMember(){
@@ -215,12 +261,13 @@ void Membership::deleteAllMember(){
     }
     head = NULL;
     totalMember = 0;
+    memberIDCounter = 0;
 }
 
 void Membership::loadFile(){
     ifstream readFile("memberData.txt");
     if(!readFile.is_open()){
-        cout << "\nError: Unable to open file for reading." << endl;
+        cout << "\n ERROR! Unable to read from member data ...\n" << endl;
         return;
     }
 
@@ -228,14 +275,19 @@ void Membership::loadFile(){
     string line;
     while(getline(readFile, line)){
         stringstream ss(line);
+        string input;
+
         string ID, name, phoneNum, email;
+        bool borrowStatus;
 
         getline(ss, ID, '~');
         getline(ss, name, '~');
         getline(ss, phoneNum, '~');
         getline(ss, email, '~');
+        getline(ss, input, '~');
+        borrowStatus = (input == "1" ? true : false); //terniary operator if-else
 
-        Member temp{ID, name, phoneNum, email, NULL};
+        Member temp{ID, name, phoneNum, email, borrowStatus, NULL};
         Queue.push(temp);
     }
 
@@ -243,27 +295,28 @@ void Membership::loadFile(){
         Member curr = Queue.front();
         Queue.pop();
 
-        addMember(curr.ID, curr.name, curr.phoneNum, curr.email);
+        addMember(curr.ID, curr.name, curr.phoneNum, curr.email, curr.borrowStatus);
     }
 
-    cout << "\n Member data loaded successfully" << endl;
+    cout << "\n Member data loaded successfully\n" << endl;
     readFile.close();
 }
 
 void Membership::saveFile(){
     ofstream writeFile("memberData.txt");
     if(!writeFile.is_open()){
-        cout << "\nError: Unable to open file for writing." << endl;
+        cout << "\n ERROR! Unable to write into member data ...\n" << endl;
         return;
     }
 
     Member* curr = head;
     while(curr != NULL){
         writeFile << curr -> ID << '~' << curr -> name << '~'
-                  << curr -> phoneNum << '~' << curr -> email << '~' << endl;
+                  << curr -> phoneNum << '~' << curr -> email << '~'
+                  << curr -> borrowStatus << '~' << endl;
         curr = curr -> next;
     }
 
-    cout << "\n Member data saved successfully" << endl;
+    cout << "\n Member data saved successfully\n" << endl;
     writeFile.close();
 }

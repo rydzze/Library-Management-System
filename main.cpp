@@ -1,4 +1,6 @@
 // g++ -o LibraryManagementSystem main.cpp Library.cpp Membership.cpp
+// g++ -o LibraryManagementSystem main.cpp Library.cpp Membership.cpp
+// g++ -o LibraryManagementSystem main.cpp Library.cpp Membership.cpp
 
 #include <iostream>
 #include <cstdlib>
@@ -16,11 +18,10 @@ int main(){
     Membership member;
     init(library, member);
     
-    string userInput = "";
-    int choice = 0;
-    bool proceed;
+    string input;    int choice;    bool proceed;
 
     do{
+        input = "";     choice = 0;     proceed = false;
         system("cls");
         cout << "\n **************************************************************************\n\n";
         cout << "                      WELCOME TO LIBRARY MANAGEMENT SYSTEM                   \n";
@@ -41,9 +42,9 @@ int main(){
         cout << "\n\t11. Return a book\n";
 
         cout << "\n\t12. Load data";
-        cout << "\n\t13. Save data";
+        cout << "\n\t13. Save data\n";
         
-        cout << "\n\n\t0.  Exit System\n";
+        cout << "\n\t0.  Exit System\n";
 
         cout << "\n\n    Input: ";
         cin >> choice;
@@ -55,18 +56,15 @@ int main(){
                 library.addBook();
                 break;
             case 2:
-                library.displayAllBook();
                 library.viewBookInfo();
                 break;
             case 3:
-                library.displayAllBook();
                 library.editBook();
                 break;
             case 4:
                 library.displayAllBook();
                 break;
             case 5:
-                library.displayAllBook();
                 library.deleteBook();
                 break;
             case 6:
@@ -76,23 +74,25 @@ int main(){
                 member.displayAllMember();
                 break;
             case 8:
-                member.displayAllMember();
                 member.editMember();
                 break;
             case 9:
-                member.displayAllMember();
                 member.deleteMember();
                 break;
             case 10:
-                cout << "\nEnter Member ID : ";
-                cin >> userInput;
-                proceed = member.checkMembership(userInput);
+                cout << "\n\tEnter Member ID : ";
+                cin >> input;
+                proceed = member.checkMembership(input);
                 if(proceed){
-                    library.borrowBook(userInput, member.getName(userInput));
+                    library.borrowBook(input, member.getName(input));
+                    member.changeBorrowStatus(input);
                 }
                 break;
             case 11:
-                library.returnBook();
+                input = library.returnBook();
+                if(input != ""){
+                    member.changeBorrowStatus(input);
+                }
                 break;
             case 12:
                 library.deleteAllBook();
@@ -105,11 +105,13 @@ int main(){
                 member.saveFile();
                 break;
             case 0:
-                cout << "\nExit ...\n";
+                cout << "\n Exiting Library Management System ...\n\n";
                 break;
             default:
                 break;
         }
+        if(choice != 0)
+            cout << "\n Redirecting to main menu ..." << endl << endl;
         system("pause");
         
     }while(choice != 0);

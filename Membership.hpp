@@ -9,6 +9,7 @@ class Membership{
     private:
         struct Member{
             string ID, name, phoneNum, email;
+            bool borrowStatus;
             Member* next;
         };
 
@@ -26,10 +27,11 @@ class Membership{
 
         bool checkMembership(const string& ID);
         string getName(const string& ID);
+        void changeBorrowStatus(const string& ID);
         
         void addMember();
-        void addMember(const string& ID, const string& name,
-                       const string& phoneNum, const string& email);
+        void addMember(const string& ID, const string& name, const string& phoneNum,
+                       const string& email, const bool& borrowStatus);
         void displayAllMember();
         void editMember();
         void deleteMember();
