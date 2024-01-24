@@ -1,25 +1,15 @@
-C016~Watchmen~Alan Moore~Comic~1987~9780930289232~DC Comics~0~~~
-C017~Batman: The Killing Joke~Alan Moore~Comic~1988~9780930289454~DC Comics~0~~~
-C018~Maus~Art Spiegelman~Comic~1986~9780394747231~Pantheon Books~0~~~
-C019~Spider-Man: The Night Gwen Stacy Died~Gerry Conway~Comic~1973~9780785167179~Marvel Comics~0~~~
-C020~Persepolis~Marjane Satrapi~Comic~2000~9780375714573~Pantheon Books~0~~~
-F011~The Hobbit~J.R.R. Tolkien~Fantasy~1937~9780618260300~Mariner Books~0~~~
-F012~Harry Potter and the Sorcerer's Stone~J.K. Rowling~Fantasy~1997~9780590353427~Scholastic~0~~~
-F013~The Name of the Wind~Patrick Rothfuss~Fantasy~2007~9780756404741~DAW Books~0~~~
-F014~A Game of Thrones~George R.R. Martin~Fantasy~1996~9780553103540~Bantam Spectra~0~~~
-F015~Mistborn: The Final Empire~Brandon Sanderson~Fantasy~2006~9780765311788~Tor Books~0~~~
-H006~Sapiens: A Brief History of Humankind~Yuval Noah Harari~History~2014~9780062316097~Harper~0~~~
-H007~A People's History of the United States~Howard Zinn~History~1980~9780061965586~Harper Perennial~0~~~
-H008~The Guns of August~Barbara W. Tuchman~History~1962~9780345476098~Presidio Press~0~~~
-H009~The Wright Brothers~David McCullough~History~2015~9781476728759~Simon & Schuster~0~~~
-H010~The History of England~Peter Ackroyd~History~2011~9780312674928~St. Martin's Press~0~~~
-P021~Sophie's World~Jostein Gaarder~Philosophy~1991~9780374500016~Farrar, Straus and Giroux~0~~~
-P022~Being and Time~Martin Heidegger~Philosophy~1927~9780061575594~Harper Perennial Modern Thought~0~~~
-P023~Thus Spoke Zarathustra~Friedrich Nietzsche~Philosophy~1883~9780140441185~Penguin Classics~0~~~
-P024~A Theory of Justice~John Rawls~Philosophy~1971~9780674880162~Belknap Press~0~~~
-P025~Being and Nothingness~Jean-Paul Sartre~Philosophy~1943~9780671867805~Washington Square Press~0~~~
-S001~A Brief History of Time~Stephen Hawking~Science~1988~9780553380163~Bantam Books~0~~~
-S002~The Selfish Gene~Richard Dawkins~Science~1976~9780192860927~Oxford University Press~0~~~
-S003~Cosmos~Carl Sagan~Science~1980~9780345539434~Random House~0~~~
-S004~The Elegant Universe~Brian Greene~Science~1999~9780375708114~Vintage Books~0~~~
-S005~The Double Helix~James D. Watson~Science~1968~9780743216302~Touchstone~0~~~
+C010~Watchmen~Alan Moore~Comic~1987~9780930289232~DC Comics~0~~~
+C011~Batman: The Killing Joke~Alan Moore~Comic~1988~9780930289454~DC Comics~0~~~
+C012~Spider-Man: The Night Gwen Stacy Died~Gerry Conway~Comic~1973~9780785167179~Marvel Comics~0~~~
+F007~The Hobbit~J.R.R. Tolkien~Fantasy~1937~9780618260300~Mariner Books~0~~~
+F008~Harry Potter and the Sorcerer's Stone~J.K. Rowling~Fantasy~1997~9780590353427~Scholastic~1~U003~Sarvien~
+F009~A Game of Thrones~George R.R. Martin~Fantasy~1996~9780553103540~Bantam Spectra~0~~~
+H004~A People's History of the United States~Howard Zinn~History~1980~9780061965586~Harper Perennial~0~~~
+H005~The Wright Brothers~David McCullough~History~2015~9781476728759~Simon & Schuster~0~~~
+H006~The History of England~Peter Ackroyd~History~2011~9780312674928~St. Martin's Press~0~~~
+P013~Being and Time~Martin Heidegger~Philosophy~1927~9780061575594~Harper Perennial Modern Thought~0~~~
+P014~A Theory of Justice~John Rawls~Philosophy~1971~9780674880162~Belknap Press~1~U002~Nawfal~
+P015~Being and Nothingness~Jean-Paul Sartre~Philosophy~1943~9780671867805~Washington Square Press~0~~~
+S001~A Brief History of Time~Stephen Hawking~Science~1988~9780553380163~Bantam Books~1~U001~Ariff~
+S002~Cosmos~Carl Sagan~Science~1980~9780345539434~Random House~1~U001~Ariff~
+S003~The Elegant Universe~Brian Greene~Science~1999~9780375708114~Vintage Books~0~~~

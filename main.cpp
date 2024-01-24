@@ -85,13 +85,13 @@ int main(){
                 proceed = member.checkMembership(input);
                 if(proceed){
                     library.borrowBook(input, member.getName(input));
-                    member.changeBorrowStatus(input);
+                    member.updateTotalBookBorrow(input, "borrow");
                 }
                 break;
             case 11:
                 input = library.returnBook();
                 if(input != ""){
-                    member.changeBorrowStatus(input);
+                    member.updateTotalBookBorrow(input, "return");
                 }
                 break;
             case 12:

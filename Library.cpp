@@ -90,8 +90,8 @@ void Library::addBook(){
 }
 
 void Library::addBook(const string& ID, const string& title, const string& author, const string& genre,
-                     const int& year, const long long int& ISBN, const string& publisher,
-                     const bool& borrowStatus, const string& memberID, const string& memberName)
+                      const int& year, const long long int& ISBN, const string& publisher,
+                      const bool& borrowStatus, const string& memberID, const string& memberName)
 {
     Book *newBook = new Book;
     newBook -> ID = ID;
@@ -219,7 +219,6 @@ void Library::editBook(){
     return;
 }  
 
-//add column to check book availability laterrr
 void Library::displayAllBook(){
     if(isEmpty()){
         cout << "\n\tNo book stored in the system :(" << endl << endl;
@@ -231,18 +230,23 @@ void Library::displayAllBook(){
         sorted = true;
     }
 
+    string borrowed = ""; 
     Book* curr = head;
-    cout << "+" << setfill('-') << setw(7) << "+" << setw(45) << "+" << setw(21) << "+" << setw(13) << "+" << endl;
+    cout << "+" << setfill('-') << setw(7) << "+" << setw(45) << "+" << setw(21) << "+" << setw(13) << "+" << setw(12) << "+" << endl;
     cout << "|" << setfill(' ') << setw(6) << left << "ID" << "|" << setw(44) << left << "Title" << "|"
-                << setw(20) << left << "Author" << "|" << setw(12) << left << "Genre" << "|" << endl;
-
+                << setw(20) << left << "Author" << "|" << setw(12) << left << "Genre" << "|"
+                << setw(11) << left << "Borrowed?" << "|" << endl;
     while (curr != NULL){
-        cout << "|" << setfill('-') << setw(7) << right << "|" << setw(45) << "|" << setw(21) << "|" << setw(13) << "|" << endl;
+        if(curr -> borrowStatus == true)    borrowed = "     X";
+        else                                borrowed = "";
+
+        cout << "|" << setfill('-') << setw(7) << right << "|" << setw(45) << "|" << setw(21) << "|" << setw(13) << "|" << setw(12) << "|" << endl;
         cout << "|" << setfill(' ') << setw(6) << left << curr -> ID << "|" << setw(44) << left << curr -> title << "|"
-                    << setw(20) << left << curr -> author << "|" << setw(12) << left << curr -> genre << "|" << endl;
+                    << setw(20) << left << curr -> author << "|" << setw(12) << left << curr -> genre << "|"
+                    << setw(11) << left << borrowed << "|" << endl;
         curr = curr -> next;
     } 
-    cout << "+" << setfill('-') << setw(7) << right << "+" << setw(45) << "+" << setw(21) << "+" << setw(13) << "+" << endl;
+    cout << "+" << setfill('-') << setw(7) << right << "+" << setw(45) << "+" << setw(21) << "+" << setw(13) << "+" << setw(12) << "+" << endl;
 }
 
 void Library::deleteBook(){

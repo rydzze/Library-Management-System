@@ -58,12 +58,15 @@ string Membership::getName(const string& ID){
     return "";
 }
 
-void Membership::changeBorrowStatus(const string& ID){
+void Membership::updateTotalBookBorrow(const string& ID, const string& status){
     Member* curr = head;
 
     while(curr != NULL){
         if(curr -> ID == ID){
-            curr -> borrowStatus = !(curr -> borrowStatus);
+            if(status == "borrow")      curr -> totalBookBorrow++;
+            else if(status == "return") curr -> totalBookBorrow--;
+
+            return;
         }
         curr = curr -> next;
     }
@@ -88,7 +91,7 @@ void Membership::addMember(){
     getline(cin, userInput);
     newMember -> email = userInput;
     newMember -> ID = generateMemberID();
-    newMember -> borrowStatus = false;
+    newMember -> totalBookBorrow = 0;
 
     newMember -> next = NULL;
 
@@ -110,14 +113,14 @@ void Membership::addMember(){
 }
 
 void Membership::addMember(const string& ID, const string& name, const string& phoneNum,
-                           const string& email, const bool& borrowStatus)
+                           const string& email, const int& totalBookBorrow)
 {
     Member* newMember = new Member;
     newMember -> ID = ID;
     newMember -> name = name;
     newMember -> phoneNum = phoneNum;
     newMember -> email = email;
-    newMember -> borrowStatus = borrowStatus;
+    newMember -> totalBookBorrow = totalBookBorrow;
     newMember -> next = NULL;
 
     if(isEmpty()){
@@ -173,7 +176,7 @@ void Membership::editMember(){
     while(curr != NULL){
         if(curr -> ID == userInput){
 
-            if(curr -> borrowStatus){
+            if(curr -> totalBookBorrow != 0){
                 cout << "\n\tThis member borrowed a book currently";
                 cout << "\n\tAbort editing process ..." << endl << endl;
                 return;
@@ -221,7 +224,7 @@ void Membership::deleteMember(){
     while(curr != NULL){
         if(curr -> ID == userInput){
 
-            if(curr -> borrowStatus){
+            if(curr -> totalBookBorrow != 0){
                 cout << "\n\tThis member borrowed a book currently";
                 cout << "\n\tAbort deletion process ..." << endl << endl;
                 return;
@@ -278,16 +281,16 @@ void Membership::loadFile(){
         string input;
 
         string ID, name, phoneNum, email;
-        bool borrowStatus;
+        int totalBookBorrow;
 
         getline(ss, ID, '~');
         getline(ss, name, '~');
         getline(ss, phoneNum, '~');
         getline(ss, email, '~');
         getline(ss, input, '~');
-        borrowStatus = (input == "1" ? true : false); //terniary operator if-else
+        ss >> totalBookBorrow;
 
-        Member temp{ID, name, phoneNum, email, borrowStatus, NULL};
+        Member temp{ID, name, phoneNum, email, totalBookBorrow, NULL};
         Queue.push(temp);
     }
 
@@ -295,7 +298,7 @@ void Membership::loadFile(){
         Member curr = Queue.front();
         Queue.pop();
 
-        addMember(curr.ID, curr.name, curr.phoneNum, curr.email, curr.borrowStatus);
+        addMember(curr.ID, curr.name, curr.phoneNum, curr.email, curr.totalBookBorrow);
     }
 
     cout << "\n Member data loaded successfully\n" << endl;
@@ -313,7 +316,7 @@ void Membership::saveFile(){
     while(curr != NULL){
         writeFile << curr -> ID << '~' << curr -> name << '~'
                   << curr -> phoneNum << '~' << curr -> email << '~'
-                  << curr -> borrowStatus << '~' << endl;
+                  << curr -> totalBookBorrow << endl;
         curr = curr -> next;
     }
 
