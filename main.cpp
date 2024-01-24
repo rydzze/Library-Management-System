@@ -4,22 +4,21 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <limits>
 #include "Library.hpp"
 #include "Membership.hpp"
 using namespace std;
 using LibSys::Library;
 using MemberSys::Membership;
 
-void init(Library& library, Membership& member);
-
 int main(){
 
     Library library;
     Membership member;
-    init(library, member);
+    library.loadFile();
+    member.loadFile();
     
     string input;    int choice;    bool proceed;
-
     do{
         input = "";     choice = 0;     proceed = false;
         system("cls");
@@ -46,10 +45,16 @@ int main(){
         
         cout << "\n\t0.  Exit System\n";
 
-        cout << "\n\n    Input: ";
-        cin >> choice;
-        cin.ignore();
+        cout << "\n\n\tInput : ";
+        while(!(cin >> choice)){
+            cout << "\n\tERROR! Please choose valid option provided ...\n";
+            cout << "\n\tInput : ";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
 
+        cin.clear();
+        cin.ignore();
         system("cls");
         switch(choice){
             case 1:
@@ -110,6 +115,7 @@ int main(){
             default:
                 break;
         }
+
         if(choice != 0)
             cout << "\n Redirecting to main menu ..." << endl << endl;
         system("pause");
@@ -117,9 +123,4 @@ int main(){
     }while(choice != 0);
 
     return 0;
-}
-
-void init(Library& library, Membership& member){
-    library.loadFile();
-    member.loadFile();
 }

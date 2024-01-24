@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <queue>
+#include <limits>
 #include "Library.hpp"
 using namespace std;
 using namespace LibSys;
@@ -45,48 +46,57 @@ void Library::addBook(){
     cout << "\t___________________________________" << endl;
 
     Book *newBook = new Book;
-    cout << "\n\tTitle     : ";
-    getline(cin, userInput);
-    newBook -> title = userInput;
-    cout << "\n\tAuthor    : ";
-    getline(cin, userInput);
-    newBook -> author = userInput;
-    cout << "\n\tGenre     : ";
-    getline(cin, userInput);
-    newBook -> genre = userInput;        
-    newBook -> ID = generateBookID(userInput);
-    cout << "\n\tYear      : ";
-    getline(cin, userInput);
-    newBook -> year = stoi(userInput);
-    cout << "\n\tISBN      : ";
-    getline(cin, userInput);
-    newBook -> ISBN = stoll(userInput);
-    cout << "\n\tPublisher : ";
-    getline(cin, userInput);
-    newBook -> publisher = userInput;
-    newBook -> borrowStatus = false;
-    newBook -> memberID = "";
-    newBook -> memberName = "";
+    try{
+        cout << "\n\tTitle     : ";
+        getline(cin, userInput);
+        newBook -> title = userInput;
+        cout << "\n\tAuthor    : ";
+        getline(cin, userInput);
+        newBook -> author = userInput;
+        cout << "\n\tGenre     : ";
+        getline(cin, userInput);
+        newBook -> genre = userInput;        
+        newBook -> ID = generateBookID(userInput);
+        cout << "\n\tYear      : ";
+        getline(cin, userInput);
+        newBook -> year = stoi(userInput);
+        cout << "\n\tISBN      : ";
+        getline(cin, userInput);
+        newBook -> ISBN = stoll(userInput);
+        cout << "\n\tPublisher : ";
+        getline(cin, userInput);
+        newBook -> publisher = userInput;
+        newBook -> borrowStatus = false;
+        newBook -> memberID = "";
+        newBook -> memberName = "";
 
-    newBook -> next = NULL;
+        newBook -> next = NULL;
 
-    if(isEmpty()){
-        head = newBook;
-    }
-    else{
-        Book* curr = head;
-        while(curr -> next != NULL){
-            curr = curr -> next;
+        if(isEmpty()){
+            head = newBook;
         }
-        curr -> next = newBook;
+        else{
+            Book* curr = head;
+            while(curr -> next != NULL){
+                curr = curr -> next;
+            }
+            curr -> next = newBook;
+        }
+
+        bookIDCounter++;
+        totalBook++;
+        sorted = false;
+
+        cout << "\n\n\tNew book has been added into the system!";
+        cout << "\n\tBook ID : " << newBook -> ID << endl << endl;
     }
-
-    bookIDCounter++;
-    totalBook++;
-    sorted = false;
-
-    cout << "\n\n\tNew book has been added into the system!";
-    cout << "\n\tBook ID : " << newBook -> ID << endl << endl;
+    catch(const invalid_argument& e){
+        cerr << "\n\n\n\t******************************************************";
+        cerr << "\n\t ERROR! MAKE SURE YOU FOLLOW THE CORRECT INPUT FORMAT ";
+        cerr << "\n\t******************************************************" << endl;
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
 }
 
 void Library::addBook(const string& ID, const string& title, const string& author, const string& genre,
@@ -189,7 +199,8 @@ void Library::editBook(){
                 return;
             }
             cout<<"\n\tEditing book's info with ID "<< curr -> ID << endl;
-
+            
+            cin.clear();
             cin.ignore();
             cout << "\n\tTitle     : ";
             getline(cin, userInput);
@@ -229,6 +240,9 @@ void Library::displayAllBook(){
         mergeSort(head);
         sorted = true;
     }
+
+    cout << "\n\tViewing all books stored in the system ..." << endl;
+    cout << "\t__________________________________________" << endl << endl;
 
     string borrowed = ""; 
     Book* curr = head;

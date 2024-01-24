@@ -16,7 +16,7 @@ class Library{
             Book* next;
         };
 
-        int totalBook, bookIDCounter;
+        int totalBook = 0, bookIDCounter = 0;
         bool sorted = true;
         Book* head;
         

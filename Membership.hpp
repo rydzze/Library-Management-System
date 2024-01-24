@@ -13,7 +13,7 @@ class Membership{
             Member* next;
         };
 
-        int totalMember, memberIDCounter;
+        int totalMember = 0, memberIDCounter = 0;
         Member* head;
 
     public:
