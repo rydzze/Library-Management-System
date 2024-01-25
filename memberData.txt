@@ -1,3 +1,3 @@
-U001~Ariff~601313372402~1221301131@student.mmu.edu.my~1
-U002~Nawfal~60123456789~1221301208@student.mmu.edu.my~1
-U003~Sarvien~60198765432~1191100654@student.mmu.edu.my~2
+U001~Ariff~601313372402~1221301131@student.mmu.edu.my~0
+U002~Nawfal~60123456789~1221301208@student.mmu.edu.my~0
+U003~Sarvien~60198765432~1191100654@student.mmu.edu.my~0

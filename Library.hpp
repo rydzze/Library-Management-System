@@ -15,7 +15,6 @@ class Library{
             string memberID, memberName;
             Book* next;
         };
-
         int totalBook = 0, bookIDCounter = 0;
         bool sorted = true;
         Book* head;
@@ -45,9 +44,9 @@ class Library{
         void loadFile();
         void saveFile();
         
-        int compareBookID(const string& id1, const string& id2);
-        void mergeSort(Book*& headList);
-        Book* merge(Book* book1, Book* book2);
+        int compareBookID(const string& ID1, const string& ID2);
+        void mergeSort(Book*& head);
+        Book* merge(Book* left, Book* right);
         void divideList(Book* head, Book*& firstList, Book*& secondList);
 };
 

@@ -12,7 +12,6 @@ class Membership{
             int totalBookBorrow;
             Member* next;
         };
-
         int totalMember = 0, memberIDCounter = 0;
         Member* head;
 
@@ -24,7 +23,6 @@ class Membership{
         int getTotalMember();
         int getMemberIDCounter();
         string generateMemberID();
-
         bool checkMembership(const string& ID);
         string getName(const string& ID);
         void updateTotalBookBorrow(const string& ID, const string& status);

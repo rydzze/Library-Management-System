@@ -12,7 +12,6 @@ using LibSys::Library;
 using MemberSys::Membership;
 
 int main(){
-
     Library library;
     Membership member;
     library.loadFile();
@@ -31,18 +30,14 @@ int main(){
         cout << "\n\t3.  Edit book info";
         cout << "\n\t4.  Display all books";
         cout << "\n\t5.  Delete existing book\n";
-
         cout << "\n\t6.  Add new member";
         cout << "\n\t7.  Display all members";
         cout << "\n\t8.  Edit member info";
         cout << "\n\t9.  Delete existing member\n";
-
         cout << "\n\t10. Borrow a book";
         cout << "\n\t11. Return a book\n";
-
         cout << "\n\t12. Load data";
         cout << "\n\t13. Save data\n";
-        
         cout << "\n\t0.  Exit System\n";
 
         cout << "\n\n\tInput : ";
@@ -52,10 +47,10 @@ int main(){
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
-
         cin.clear();
         cin.ignore();
         system("cls");
+        
         switch(choice){
             case 1:
                 library.addBook();
@@ -111,6 +106,7 @@ int main(){
                 break;
             case 0:
                 cout << "\n Exiting Library Management System ...\n\n";
+                exit(0);
                 break;
             default:
                 break;
@@ -118,6 +114,8 @@ int main(){
 
         if(choice != 0)
             cout << "\n Redirecting to main menu ..." << endl << endl;
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         system("pause");
         
     }while(choice != 0);
