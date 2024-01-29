@@ -316,7 +316,6 @@ void Membership::loadFile(){
             getline(ss, name, '~');
             getline(ss, phoneNum, '~');
             getline(ss, email, '~');
-            getline(ss, input, '~');
             ss >> totalBookBorrow;
 
             Member temp{ID, name, phoneNum, email, totalBookBorrow, NULL};
