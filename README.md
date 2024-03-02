@@ -1,5 +1,9 @@
 # Library Management System
 
+## Original Author
+
+This project is created and maintained by [rydzze](https://github.com/rydzze).
+
 ## Introduction
 
 The Library Management System acts as a centralized digitalized system designed to streamline various library tasks. The primary objective of this system is to assist librarians in efficiently managing and organizing books, thus alleviating the burdensome traditional methods of bookkeeping. Additionally, the system aims to facilitate patrons in browsing the library catalog, as well as simplifying the borrowing and returning transactions. Divided into three core sections - books, members, and borrowing/returning transactions - the system incorporates 13 distinct functions.
